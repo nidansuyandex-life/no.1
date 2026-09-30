@@ -308,7 +308,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 .skin-step:last-child{border-bottom:none;padding-bottom:0}
 .skin-step .step-body{flex:1}
 .skin-step .step-name{font-size:14px;font-weight:500;margin-bottom:6px}
-.skin-step .step-product{display:flex;align-items:center;gap:8px;padding:9px 12px;background:#F7F8FC;border-radius:11px;cursor:pointer;font-size:13px;color:#3A4152}
+.skin-step .step-product{display:flex;align-items:center;gap:6px;padding:9px 12px;background:#F7F8FC;border-radius:11px;cursor:pointer;font-size:13px;color:#3A4152}
 .skin-step .step-product .arrow{color:#8A90A2;font-size:12px;margin-left:auto}
 .skin-step .step-product.empty{color:#B9C0D0;font-style:italic}
 .skin-step .step-del{width:22px;height:22px;border-radius:50%;border:none;background:#FFEDEA;color:#FF6B5B;font-size:12px;cursor:pointer;flex:none;line-height:1;margin-top:4px}
@@ -328,6 +328,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 .product-eval.avoid .pe-tag{background:#FF6B5B;color:#fff}
 .pe-name{font-size:12.5px;font-weight:600;color:#1B1F2A}
 .pe-reason{color:#3A4152}
+.prod-tag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:7px;flex:none;margin-right:4px}
+.prod-tag.ok{background:#E7F9F5;color:#1FBFA9}
+.prod-tag.warn{background:#FFF4E0;color:#D98A0B}
+.prod-tag.danger{background:#FFEDEA;color:#FF6B5B}
+.ask-ai-btn{border:none;background:transparent;font-size:14px;cursor:pointer;padding:0 4px;color:#8B7CF6;flex:none}
+.ask-ai-btn:active{opacity:.6}
 .tabbar{position:absolute;bottom:0;left:0;right:0;height:calc(80px + env(safe-area-inset-bottom, 0px));padding-bottom:env(safe-area-inset-bottom, 0px);z-index:20;background:rgba(255,255,255,.94);border-top:1px solid #EDEFF5;display:flex;align-items:flex-start;padding-top:11px}
 .tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;background:none;border:none;font-family:inherit;font-size:10px;color:#9AA0B2;cursor:pointer;padding:0}
 .tab .ti{font-size:20px;line-height:1;filter:grayscale(1) opacity(.5)}
@@ -348,6 +354,74 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 .plan-start-card{background:linear-gradient(135deg,#FFF6F2,#FFEDE6);border:1.5px solid #FFD9CC}
 .plan-start-card .card-title{color:#E4573D}
 .plan-start-card .lb{color:#8A5A48}
+/* ===== AI 聊天 ===== */
+.chat-panel{position:absolute;inset:0;z-index:150;background:#F5F6FA;display:none;flex-direction:column}
+.chat-panel.show{display:flex}
+.chat-head{flex:none;padding:calc(14px + env(safe-area-inset-top, 14px)) 16px 14px;background:linear-gradient(135deg,#8B7CF6,#B39BFF);color:#fff;display:flex;align-items:center;gap:12px}
+.chat-head h2{font-size:17px;font-weight:700;flex:1}
+.chat-head .ch-clear,.chat-head .ch-close{width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,.24);color:#fff;font-size:15px;cursor:pointer}
+.chat-body{flex:1;overflow-y:auto;padding:14px 16px;scrollbar-width:none}
+.chat-body::-webkit-scrollbar{display:none}
+.chat-msg{margin-bottom:14px;display:flex;gap:8px;align-items:flex-start}
+.chat-msg.user{flex-direction:row-reverse}
+.chat-msg .avatar{width:32px;height:32px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:16px;background:#EDEFF5}
+.chat-msg.user .avatar{background:#EAF3FF}
+.chat-msg .bubble{max-width:76%;padding:10px 13px;border-radius:16px;font-size:13.5px;line-height:1.6;word-break:break-word;white-space:pre-wrap}
+.chat-msg.ai .bubble{background:#fff;color:#1B1F2A;border-top-left-radius:4px;box-shadow:0 2px 8px rgba(30,40,80,.06)}
+.chat-msg.user .bubble{background:linear-gradient(135deg,#8B7CF6,#B39BFF);color:#fff;border-top-right-radius:4px}
+.chat-msg.system .bubble{background:#FFF4E0;color:#D98A0B;font-size:12.5px;border-radius:12px;max-width:100%}
+.chat-typing{display:inline-block;width:6px;height:14px;background:#8B7CF6;border-radius:2px;margin-left:2px;animation:blink 1s infinite}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.chat-quick{flex:none;padding:8px 16px 0;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.chat-quick::-webkit-scrollbar{display:none}
+.chat-quick .qchip{flex:none;font-size:12px;padding:7px 13px;border-radius:20px;background:#fff;color:#5A6175;border:1px solid #E3E6EF;cursor:pointer;white-space:nowrap}
+.chat-foot{flex:none;padding:12px 16px calc(12px + env(safe-area-inset-bottom, 0px));background:#fff;border-top:1px solid #EDEFF5;display:flex;gap:10px;align-items:flex-end}
+.chat-foot textarea{flex:1;min-height:42px;max-height:100px;border:1.5px solid #E3E6EF;border-radius:20px;padding:10px 14px;font-family:inherit;font-size:13.5px;line-height:1.5;resize:none;outline:none;box-sizing:border-box;background:#F7F8FC}
+.chat-foot textarea:focus{border-color:#8B7CF6;background:#fff}
+.chat-foot .ch-send{flex:none;width:42px;height:42px;border-radius:50%;border:none;background:linear-gradient(135deg,#8B7CF6,#B39BFF);color:#fff;font-size:18px;cursor:pointer}
+.chat-foot .ch-send:disabled{opacity:.4;cursor:default}
+.chat-foot .ch-send:active:not(:disabled){transform:scale(.94)}
+.chat-empty{text-align:center;padding:40px 20px;color:#8A90A2}
+.chat-empty .big{font-size:42px;margin-bottom:12px}
+.chat-empty p{font-size:13px;line-height:1.7}
+/* ===== 周报/月报 ===== */
+.report-panel{position:absolute;inset:0;z-index:170;background:#F5F6FA;display:none;flex-direction:column}
+.report-panel.show{display:flex}
+.report-head{flex:none;padding:calc(14px + env(safe-area-inset-top, 14px)) 16px 14px;background:linear-gradient(135deg,#1FBFA9,#5FD9C4);color:#fff;display:flex;align-items:center;gap:12px}
+.report-head h2{font-size:17px;font-weight:700;flex:1}
+.report-head .rh-close{width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,.24);color:#fff;font-size:15px;cursor:pointer}
+.report-head .rh-list{width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,.24);color:#fff;font-size:15px;cursor:pointer}
+.report-body{flex:1;overflow-y:auto;padding:14px 16px calc(30px + env(safe-area-inset-bottom, 0px))}
+.report-title{font-size:20px;font-weight:700;color:#1B1F2A;margin-bottom:4px}
+.report-sub{font-size:12px;color:#8A90A2;margin-bottom:16px}
+.report-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+.report-cell{background:#fff;border-radius:14px;padding:14px 12px;box-shadow:0 3px 14px rgba(30,40,80,.055)}
+.report-cell .rc-label{font-size:11.5px;color:#8A90A2;margin-bottom:6px}
+.report-cell .rc-value{font-size:19px;font-weight:700;color:#1B1F2A;line-height:1.2}
+.report-cell .rc-delta{font-size:11.5px;font-weight:600;margin-top:5px}
+.report-cell .rc-delta.up{color:#1FBFA9}
+.report-cell .rc-delta.down{color:#FF6B5B}
+.report-cell .rc-delta.same{color:#8A90A2}
+.report-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 3px 14px rgba(30,40,80,.055);margin-bottom:14px}
+.report-card .rc-title{font-size:13px;font-weight:700;color:#8A90A2;letter-spacing:.5px;margin-bottom:10px}
+.report-line{display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px dashed #F0F2F7;color:#3A4152}
+.report-line:last-child{border-bottom:none}
+.report-line .rl-k{color:#5A6175}
+.report-line .rl-v{font-weight:600;color:#1B1F2A}
+.report-line .rl-v.good{color:#1FBFA9}
+.report-line .rl-v.warn{color:#D98A0B}
+.report-ai{background:linear-gradient(135deg,#F1EEFF,#EAF3FF);border-radius:16px;padding:16px;font-size:13.5px;line-height:1.8;color:#2A3040;white-space:pre-wrap;word-break:break-word;min-height:80px}
+.report-ai .ai-typing{display:inline-block;width:6px;height:14px;background:#8B7CF6;border-radius:2px;margin-left:2px;animation:blink 1s infinite}
+.report-actions{display:flex;gap:10px;margin-top:16px}
+.report-actions button{flex:1;border:none;font-family:inherit;font-size:14px;font-weight:600;padding:14px;border-radius:14px;cursor:pointer}
+.report-actions .secondary{background:#F3F5F9;color:#5A6175}
+.report-actions .primary{background:linear-gradient(135deg,#1FBFA9,#5FD9C4);color:#fff}
+.report-history-item{display:flex;align-items:center;gap:12px;padding:12px 14px;background:#fff;border-radius:14px;margin-bottom:8px;cursor:pointer;box-shadow:0 2px 8px rgba(30,40,80,.05)}
+.report-history-item .rhi-ic{width:40px;height:40px;border-radius:12px;background:#E7F9F5;display:flex;align-items:center;justify-content:center;font-size:20px;flex:none}
+.report-history-item .rhi-body{flex:1;min-width:0}
+.report-history-item .rhi-t{font-size:13.5px;font-weight:600;color:#1B1F2A}
+.report-history-item .rhi-s{font-size:11.5px;color:#8A90A2;margin-top:3px}
+.report-empty{text-align:center;padding:40px 20px;color:#8A90A2;font-size:13px;line-height:1.7}
 </style>
 </head>
 <body>
@@ -360,6 +434,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
           <h1>日历行程</h1>
           <div class="hero-actions">
             <button class="gear-btn" id="newTodoHero" style="background:rgba(255,255,255,.35);font-size:18px;font-weight:700">＋</button>
+            <button class="gear-btn" data-open-chat title="AI 助手">✨</button>
+            <button class="gear-btn" data-open-report title="健康报告">📊</button>
             <button class="gear-btn" data-open-settings>⚙️</button>
           </div>
         </div>
@@ -388,10 +464,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
           <div class="card"><div class="card-title"><span id="calDayTitle"></span><span class="tag on" id="calDayTag"></span></div><div class="tl" id="calDayTl"></div></div>
         </div>
         <div class="pane">
-          <div class="card"><div class="card-title">未完成事项 <span class="muted" id="undoneCount">0 项</span></div><div id="undoneList"></div></div>
+          <div class="card">
+            <input type="text" class="product-search-input" id="searchTodoUndone" placeholder="搜索待办…">
+            <div class="card-title" style="margin-top:12px">未完成事项 <span class="muted" id="undoneCount">0 项</span></div>
+            <div id="undoneList"></div>
+          </div>
         </div>
         <div class="pane">
-          <div class="card"><div class="card-title">全部待办</div><div id="allTodoList"></div></div>
+          <div class="card">
+            <input type="text" class="product-search-input" id="searchTodoAll" placeholder="搜索待办…">
+            <div class="card-title" style="margin-top:12px">全部待办</div>
+            <div id="allTodoList"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -400,7 +484,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
       <header class="hero">
         <div class="hero-row">
           <h1>AI 语音记账</h1>
-          <div class="hero-actions"><span class="hero-icon">🎙️</span><button class="gear-btn" data-open-settings>⚙️</button></div>
+          <div class="hero-actions">
+            <span class="hero-icon">🎙️</span>
+            <button class="gear-btn" data-open-chat title="AI 助手">✨</button>
+            <button class="gear-btn" data-open-report title="健康报告">📊</button>
+            <button class="gear-btn" data-open-settings>⚙️</button>
+          </div>
         </div>
         <p class="hero-sub">说一句话，自动帮你记好每一笔</p>
         <span class="hero-badge" id="moneyBadge">本月已记 0 笔</span>
@@ -456,6 +545,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
         </div>
         <div class="pane">
           <div class="balance"><div class="lab">本月支出</div><div class="big" id="monthExpense">¥ 0.00</div><div class="foot"><span id="monthIncome">收入 ¥ 0</span><span id="monthBalance">结余 ¥ 0</span></div></div>
+          <div class="card">
+            <input type="text" class="product-search-input" id="searchTx" placeholder="搜索账目（备注/分类）…">
+          </div>
           <div class="card"><div class="card-title">今日明细 <span class="muted">点击条目可编辑，点 ✕ 可删除</span></div><div id="todayTx"></div></div>
           <div class="card"><div class="card-title">分类占比</div><div id="categoryChart"></div></div>
         </div>
@@ -480,7 +572,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
       <header class="hero">
         <div class="hero-row">
           <h1>运动打卡</h1>
-          <div class="hero-actions"><span class="hero-icon">💪</span><button class="gear-btn" data-open-settings>⚙️</button></div>
+          <div class="hero-actions">
+            <span class="hero-icon">💪</span>
+            <button class="gear-btn" data-open-chat title="AI 助手">✨</button>
+            <button class="gear-btn" data-open-report title="健康报告">📊</button>
+            <button class="gear-btn" data-open-settings>⚙️</button>
+          </div>
         </div>
         <p class="hero-sub" id="heroSub">加载中…</p>
         <span class="hero-badge" id="heroBadge">按原计划</span>
@@ -533,14 +630,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
           </div>
           <div class="card" id="bodyStateCard"></div>
           <div class="card">
-            <div class="card-title">今日疼痛评分 <span class="tag" id="painTag">可训练</span></div>
-            <div class="scale" id="painScale"><i>0</i><i class="on">1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i><i>10</i></div>
-          </div>
-          <div class="card">
-            <div class="card-title">训练强度 RPE</div>
-            <div class="scale" id="rpeScale"><i>1</i><i>2</i><i>3</i><i>4</i><i class="on">5</i><i class="warn">6</i><i>7</i><i>8</i><i>9</i><i>10</i></div>
-          </div>
-          <div class="card">
             <div class="card-title">🍽️ 每日饮食时间表 <span class="muted">工作日版</span></div>
             <div class="kv"><span class="k">07:40</span><span class="v">早餐：鸡蛋 + 牛奶/豆浆 + 燕麦/面包 + 水果</span></div>
             <div class="kv"><span class="k">11:30</span><span class="v">午餐：米饭/面 + 肉/鱼/豆腐 + 两份蔬菜</span></div>
@@ -571,7 +660,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
       <header class="hero">
         <div class="hero-row">
           <h1>私人衣橱</h1>
-          <div class="hero-actions"><span class="hero-icon">👗</span><button class="gear-btn" data-open-settings>⚙️</button></div>
+          <div class="hero-actions">
+            <span class="hero-icon">👗</span>
+            <button class="gear-btn" data-open-chat title="AI 助手">✨</button>
+            <button class="gear-btn" data-open-report title="健康报告">📊</button>
+            <button class="gear-btn" data-open-settings>⚙️</button>
+          </div>
         </div>
         <p class="hero-sub">已收录 <span id="closetCount">0</span> 件单品</p>
         <div class="shape-box">
@@ -632,6 +726,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
         <div class="pane">
           <div class="card">
             <div class="card-title">我的产品库 <span class="muted" id="libCount">0 件</span></div>
+            <input type="text" class="product-search-input" id="searchClothes" placeholder="搜索单品（名称/颜色/场合）…">
             <div class="cat-tabs" id="libCatTabs"></div>
             <div id="libraryList"></div>
           </div>
@@ -642,10 +737,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
             <div class="chips" id="aiSceneChips">
               <span class="chip primary" data-scene="通勤">通勤</span><span class="chip" data-scene="约会">约会</span>
               <span class="chip" data-scene="运动">运动</span><span class="chip" data-scene="居家">居家</span>
+              <span class="chip" data-scene="休闲">休闲</span>
             </div>
           </div>
-          <div class="card"><div class="card-title"><span>推荐搭配</span><span class="score" id="aiScore">基于产品库</span></div><div id="aiMatchCard"></div></div>
-          <button class="btn-ghost" id="aiRefreshBtn">换一套搭配</button>
+
+          <button class="btn-primary" id="aiStylingBtn"
+            style="background:linear-gradient(135deg,#8B7CF6,#B39BFF)">
+            ✨ AI 帮我搭配
+          </button>
+
+          <div class="card" style="margin-top:12px" id="aiStylingCard">
+            <div style="text-align:center;padding:20px 10px;color:#8A90A2">
+              <div style="font-size:42px;margin-bottom:12px">👗</div>
+              <p style="font-size:13px;line-height:1.7">点击上方按钮<br>AI 会从你的衣橱里挑一套适合当前场景的搭配</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><span>随机搭配</span><span class="score" id="aiScore">基于产品库</span></div>
+            <div id="aiMatchCard"></div>
+          </div>
+          <button class="btn-ghost" id="aiRefreshBtn">换一套随机搭配</button>
         </div>
         <div class="pane">
           <div class="card"><div class="card-title">搭配台 <span class="muted">点击槽位选择单品</span></div><div id="freeSlots"></div></div>
@@ -659,7 +771,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
       <header class="hero">
         <div class="hero-row">
           <h1>美丽修行</h1>
-          <div class="hero-actions"><span class="hero-icon">🌸</span><button class="gear-btn" data-open-settings>⚙️</button></div>
+          <div class="hero-actions">
+            <span class="hero-icon">🌸</span>
+            <button class="gear-btn" data-open-chat title="AI 助手">✨</button>
+            <button class="gear-btn" data-open-report title="健康报告">📊</button>
+            <button class="gear-btn" data-open-settings>⚙️</button>
+          </div>
         </div>
         <p class="hero-sub">外养护肤 · 内服补剂</p>
         <span class="hero-badge" id="careBadge">今日护肤 · 补剂</span>
@@ -782,6 +899,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
       <div style="font-size:12.5px;color:#5A6175;line-height:1.6;margin-bottom:10px">输入产品名称和成分表，系统会自动分析是否适合。</div>
       <input type="text" class="product-search-input" id="prodManualName" placeholder="产品名称，如 XXX 精华">
       <textarea class="product-textarea" id="prodManualIngr" placeholder="粘贴或输入成分表…"></textarea>
+      <div class="dim-row" style="margin-bottom:10px">
+        <span class="lb">开封日期（可选）</span>
+        <input type="date" id="prodOpenedAt" style="width:150px;border:1.5px solid #E3E6EF;border-radius:10px;padding:8px 10px;font-family:inherit;font-size:13.5px;font-weight:600;color:#1B1F2A;background:#fff;outline:none">
+      </div>
       <label class="upload" for="ingrImgUpload" style="min-height:60px;padding:14px;margin-bottom:10px;border-style:solid;border-color:#E3E6EF">
         <span style="font-size:11.5px">📷 上传成分表截图（可选）</span>
         <input type="file" id="ingrImgUpload" accept="image/*">
@@ -796,6 +917,44 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
     <div class="box"><div class="big" id="centerTimerNum">90</div><div class="txt">该站起来走动走动了</div><div class="sub">起身 → 走动2–3分钟 → 下巴轻收5次 → 肩胛向后下轻收5–8次</div></div>
   </div>
 
+  <!-- AI 聊天面板 -->
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-head">
+      <span style="font-size:22px">✨</span>
+      <h2>AI 助手</h2>
+      <button class="ch-clear" id="chatClearBtn" title="清空对话">🗑️</button>
+      <button class="ch-close" id="chatCloseBtn">✕</button>
+    </div>
+    <div class="chat-body" id="chatBody">
+      <div class="chat-empty" id="chatEmpty">
+        <div class="big">✨</div>
+        <p>我是你的健康生活小助手<br>可以问饮食、运动、护肤、账目等问题</p>
+      </div>
+    </div>
+    <div class="chat-quick" id="chatQuick">
+      <span class="qchip" data-q="今天适合做什么运动？">今天运动</span>
+      <span class="qchip" data-q="帮我制定一份健康饮食计划">饮食计划</span>
+      <span class="qchip" data-q="皮肤泛红脱屑怎么办？">护肤建议</span>
+      <span class="qchip" data-q="怎么减少外卖支出？">省钱建议</span>
+      <span class="qchip" data-q="每天久坐应该怎么活动？">久坐活动</span>
+    </div>
+    <div class="chat-foot">
+      <textarea id="chatInput" placeholder="输入问题，回车发送…" rows="1"></textarea>
+      <button class="ch-send" id="chatSendBtn">➤</button>
+    </div>
+  </div>
+
+  <!-- 周报/月报面板 -->
+  <div class="report-panel" id="reportPanel">
+    <div class="report-head">
+      <span style="font-size:22px">📊</span>
+      <h2 id="reportHeaderTitle">健康报告</h2>
+      <button class="rh-list" id="reportHistoryBtn" title="历史报告">📂</button>
+      <button class="rh-close" id="reportCloseBtn">✕</button>
+    </div>
+    <div class="report-body" id="reportBody"></div>
+  </div>
+
   <nav class="tabbar">
     <button class="tab active" data-target="p-cal"><span class="ti">📅</span>日历</button>
     <button class="tab" data-target="p-money"><span class="ti">🎙️</span>记账</button>
@@ -806,6 +965,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 </div>
 
 <script>
+/* ===== 崩溃日志捕获 ===== */
+(function(){
+  function report(msg, stack){
+    try {
+      const text = '[' + new Date().toISOString() + ']\n' + msg + '\n' + (stack || '');
+      window.__appStorageSet('last_crash', text);
+    } catch(e){}
+  }
+  window.addEventListener('error', function(e){
+    if (!e) return;
+    report(e.message || 'Unknown error', e.error && e.error.stack);
+  });
+  window.addEventListener('unhandledrejection', function(e){
+    const r = e && e.reason;
+    report('Unhandled Promise: ' + (r && r.message || r), r && r.stack);
+  });
+})();
+
 /* ===== Android APP native persistence bridge ===== */
 (function(){
   const _get = localStorage.getItem.bind(localStorage);
@@ -1391,7 +1568,6 @@ const HOLIDAYS = {
   '2025-10-01':'国庆','2025-10-02':'国庆','2025-10-03':'国庆','2025-10-04':'国庆','2025-10-05':'国庆',
   '2025-10-06':'国庆','2025-10-07':'国庆','2025-10-08':'国庆','2025-10-29':'重阳',
   '2025-11-27':'感恩节','2025-12-24':'平安夜','2025-12-25':'圣诞节',
-
   '2026-01-01':'元旦','2026-02-14':'情人节',
   '2026-02-17':'春节','2026-02-18':'初二','2026-02-19':'初三','2026-02-20':'初四',
   '2026-02-21':'初五','2026-02-22':'初六','2026-02-23':'初七',
@@ -1404,7 +1580,6 @@ const HOLIDAYS = {
   '2026-10-01':'国庆','2026-10-02':'国庆','2026-10-03':'国庆','2026-10-04':'国庆','2026-10-05':'国庆',
   '2026-10-06':'国庆','2026-10-07':'国庆','2026-10-08':'国庆','2026-10-18':'重阳',
   '2026-11-26':'感恩节','2026-12-24':'平安夜','2026-12-25':'圣诞节',
-
   '2027-01-01':'元旦',
   '2027-02-06':'春节','2027-02-07':'初二','2027-02-08':'初三','2027-02-09':'初四',
   '2027-02-10':'初五','2027-02-11':'初六','2027-02-12':'初七',
@@ -1417,7 +1592,6 @@ const HOLIDAYS = {
   '2027-10-01':'国庆','2027-10-02':'国庆','2027-10-03':'国庆','2027-10-04':'国庆','2027-10-05':'国庆',
   '2027-10-06':'国庆','2027-10-07':'国庆','2027-10-08':'国庆',
   '2027-11-25':'感恩节','2027-12-24':'平安夜','2027-12-25':'圣诞节',
-
   '2028-01-01':'元旦','2028-01-25':'除夕',
   '2028-01-26':'春节','2028-01-27':'初二','2028-01-28':'初三','2028-01-29':'初四',
   '2028-01-30':'初五','2028-01-31':'初六','2028-02-01':'初七',
@@ -1431,7 +1605,6 @@ const HOLIDAYS = {
   '2028-10-06':'国庆','2028-10-07':'国庆','2028-10-08':'国庆',
   '2028-10-03':'中秋','2028-10-26':'重阳',
   '2028-11-23':'感恩节','2028-12-24':'平安夜','2028-12-25':'圣诞节',
-
   '2029-01-01':'元旦','2029-02-12':'除夕',
   '2029-02-13':'春节','2029-02-14':'初二','2029-02-15':'初三','2029-02-16':'初四',
   '2029-02-17':'初五','2029-02-18':'初六','2029-02-19':'初七',
@@ -1444,7 +1617,6 @@ const HOLIDAYS = {
   '2029-10-01':'国庆','2029-10-02':'国庆','2029-10-03':'国庆','2029-10-04':'国庆','2029-10-05':'国庆',
   '2029-10-06':'国庆','2029-10-07':'国庆','2029-10-08':'国庆','2029-10-16':'重阳',
   '2029-11-22':'感恩节','2029-12-24':'平安夜','2029-12-25':'圣诞节',
-
   '2030-01-01':'元旦','2030-02-02':'除夕',
   '2030-02-03':'春节','2030-02-04':'初二','2030-02-05':'初三','2030-02-06':'初四',
   '2030-02-07':'初五','2030-02-08':'初六','2030-02-09':'初七',
@@ -1465,13 +1637,18 @@ const state = {
   selectedDate: Store.load('selectedDate', todayStr()),
   calYear: Store.load('calYear', new Date().getFullYear()),
   calMonth: Store.load('calMonth', new Date().getMonth()),
-  skinState: Store.load('skinState', 'A0_S0'),
+  skinState: (function(){
+    let s = Store.load('skinState', 'stable');
+    if (s === 'A0_S0' || s === 'A0') return 'stable';
+    if (s === 'A1') return 'acne';
+    if (s === 'A2' || s === 'S1' || s === 'S2') return 'severe';
+    if (s !== 'stable' && s !== 'acne' && s !== 'severe') return 'stable';
+    return s;
+  })(),
   exportRange: Store.load('exportRange', 'month'),
   aiScene: Store.load('aiScene', '通勤'),
   freeSlots: Store.load('freeSlots', [null, null, null]),
   libFilter: Store.load('libFilter', 'all'),
-  painScore: Store.load('painScore', 1),
-  rpeScore: Store.load('rpeScore', 4),
   customCats: Store.load('customCats', { expense:[], income:[] }),
   pendingTx: null,
   clothes: loadRaw('clothes', []),
@@ -1490,7 +1667,8 @@ const state = {
   })(),
   calendarData: {},
   skinProducts: loadRaw('skinProducts', {}),
-  pickingSkinStep: null
+  pickingSkinStep: null,
+  search: { todo: '', tx: '', clothes: '' }
 };
 
 /* ===== 日历 ===== */
@@ -1823,6 +2001,8 @@ function renderMoney(){
   $('#moneyBadge').textContent = `本月已记 ${state.transactions.length} 笔`;
   const iconOf = c => c === '餐饮' ? '☕' : c === '交通' ? '🚕' : c === '购物' ? '🛒' : c === '工资' ? '💼' : c === '奖金' ? '🏆' : c === '收入' ? '💰' : '💳';
   const editingId = state.pendingTx && state.pendingTx.editingId;
+  const q = (state.search.tx || '').toLowerCase();
+  const filterByQ = arr => q ? arr.filter(t => ((t.note || '') + ' ' + (t.category || '')).toLowerCase().indexOf(q) >= 0) : arr;
   const txHtml = arr => arr.length ? arr.map(t => `
     <div class="tx ${editingId === t.id ? 'editing' : ''}" data-tx-id="${t.id}">
       <div class="ic">${iconOf(t.category)}</div>
@@ -1830,8 +2010,8 @@ function renderMoney(){
       <div class="amt ${t.type === 'income' ? 'inc' : ''}">${t.type === 'income' ? '+' : '-'}${t.amount.toFixed(2)}</div>
       <button class="del-tx" data-del-tx="${t.id}">✕</button>
     </div>`).join('') : '<p class="tip" style="color:#8A90A2">暂无记录</p>';
-  $('#recentTx').innerHTML = txHtml(state.transactions.slice(0, 5));
-  $('#todayTx').innerHTML = txHtml(todayTx);
+  $('#recentTx').innerHTML = txHtml(filterByQ(state.transactions.slice(0, 5)));
+  $('#todayTx').innerHTML = txHtml(filterByQ(todayTx));
   const cats = {};
   state.transactions.filter(t => t.type === 'expense').forEach(t => { cats[t.category] = (cats[t.category] || 0) + t.amount; });
   const total = Object.values(cats).reduce((s,v) => s + v, 0) || 1;
@@ -1936,7 +2116,9 @@ function todoRowHTML(it, today){
 }
 function renderAllTodo(){
   const today = todayStr();
-  const items = getSortedTodoItems().filter(i => i.date >= today);
+  const q = (state.search.todo || '').toLowerCase();
+  let items = getSortedTodoItems().filter(i => i.date >= today);
+  if (q) items = items.filter(i => (i.title + ' ' + (i.desc || '')).toLowerCase().indexOf(q) >= 0);
   if (!items.length) { $('#allTodoList').innerHTML = '<p class="tip" style="color:#8A90A2">暂无待办事项</p>'; return; }
   let html = '';
   let lastDate = '';
@@ -1954,7 +2136,9 @@ function renderAllTodo(){
 }
 function renderUndone(){
   const today = todayStr();
-  const items = getSortedTodoItems().filter(i => i.date >= today && !i.done);
+  const q = (state.search.todo || '').toLowerCase();
+  let items = getSortedTodoItems().filter(i => i.date >= today && !i.done);
+  if (q) items = items.filter(i => (i.title + ' ' + (i.desc || '')).toLowerCase().indexOf(q) >= 0);
   $('#undoneCount').textContent = `${items.length} 项`;
   $('#undoneList').innerHTML = items.length ? items.map(it => todoRowHTML(it, today)).join('') : '<p class="tip" style="color:#8A90A2">没有未完成的事项 🎉</p>';
 }
@@ -2198,7 +2382,9 @@ function renderLibrary(){
     const count = c === 'all' ? list.length : list.filter(i => i.cat === c).length;
     return `<button class="cat-tab ${state.libFilter === c ? 'active' : ''}" data-lib-filter="${c}">${label} ${count}</button>`;
   }).join('');
-  const filtered = state.libFilter === 'all' ? list : list.filter(c => c.cat === state.libFilter);
+  const q = (state.search.clothes || '').toLowerCase();
+  let filtered = state.libFilter === 'all' ? list : list.filter(c => c.cat === state.libFilter);
+  if (q) filtered = filtered.filter(c => ((c.name || '') + ' ' + (c.color || '') + ' ' + (c.occasion || '')).toLowerCase().indexOf(q) >= 0);
   if (!filtered.length) { $('#libraryList').innerHTML = '<p class="tip" style="color:#8A90A2;text-align:center;padding:20px 0">还没有添加衣服，去「增加衣服」添加吧</p>'; return; }
   $('#libraryList').innerHTML = '<div class="lib-grid">' + filtered.map(c => {
     const meta = CATEGORIES[c.cat];
@@ -2637,37 +2823,6 @@ function buildA1Steps(){
   return { morning, night };
 }
 
-function buildA2Steps(){
-  const morning = [
-    { id:'a2_m1', name:'温和洁面', group:'clean', defaultProduct:null, note:'避免摩擦' },
-    { id:'a2_m2', name:'B5 精华', group:'essence', defaultProduct:'b5', note:'舒缓修护' },
-    { id:'a2_m3', name:'C 霜', group:'lotion', defaultProduct:'cerave', note:'' },
-    { id:'a2_m4', name:'防晒', group:'sun', defaultProduct:null, note:'' }
-  ];
-  const night = [
-    { id:'a2_n1', name:'温和洁面', group:'clean', defaultProduct:null, note:'' },
-    { id:'a2_n2', name:'B5 精华', group:'essence', defaultProduct:'b5', note:'局部可温热湿敷（干净毛巾）' },
-    { id:'a2_n3', name:'C 霜', group:'lotion', defaultProduct:'cerave', note:'' }
-  ];
-  return { morning, night };
-}
-
-function buildS1Steps(){
-  const morning = [
-    { id:'s1_m1', name:'温和洁面', group:'clean', defaultProduct:null, note:'' },
-    { id:'s1_m2', name:'B5 精华', group:'essence', defaultProduct:'b5', note:'' },
-    { id:'s1_m3', name:'C 霜', group:'lotion', defaultProduct:'cerave', note:'' },
-    { id:'s1_m4', name:'防晒（物理优先）', group:'sun', defaultProduct:null, note:'' }
-  ];
-  const night = [
-    { id:'s1_n1', name:'温和洁面', group:'clean', defaultProduct:null, note:'' },
-    { id:'s1_n2', name:'B5 精华', group:'essence', defaultProduct:'b5', note:'' },
-    { id:'s1_n3', name:'C 霜', group:'lotion', defaultProduct:'cerave', note:'' },
-    { id:'s1_n4', name:'壬二酸（仅无皮炎区域）', group:'essence', defaultProduct:'aza', note:'涂抹不刺痛才用；刺痛则暂停' }
-  ];
-  return { morning, night };
-}
-
 function buildS2Steps(){
   const morning = [
     { id:'s2_m1', name:'清水 / 极温和清洁', group:'clean', defaultProduct:null, note:'能不用洗面奶就不用' },
@@ -2684,11 +2839,24 @@ function buildS2Steps(){
 }
 
 const SKIN_STATES = {
-  'A0_S0': { key:'A0_S0', label:'稳定 (A0+S0)', icon:'🟢', desc:'皮肤稳定，按 7 天周期轮换功效成分。避免每天无脑叠加产品。', tips:'VC / 烟酰胺 / 壬二酸 / BPO 错开轮换。周日根据皮肤情况决定是否用壬二酸。', getSteps: buildStableA0Steps },
-  'A1': { key:'A1', label:'普通长痘 (A1)', icon:'🟡', desc:'几个红痘、脓包增加，但没有明显脂溢性皮炎爆发。', tips:'不要把整个流程停掉。一天只保留一个主要活性。', getSteps: buildA1Steps },
-  'A2': { key:'A2', label:'囊肿/深部痘 (A2)', icon:'🔴', desc:'囊肿/深部疼痛结节明显增加。最忌讳挤、针挑、刷酸猛攻。', tips:'护肤极简：洁面 → B5 → C霜。反复发作应看皮肤科。', getSteps: buildA2Steps },
-  'S1': { key:'S1', label:'轻度脂溢性皮炎 (S1)', icon:'🟠', desc:'有一点泛红、出油、轻微脱屑，但不明显灼痒。', tips:'暂缓维C。壬二酸在无皮炎区域不刺痛可局部使用，刺痛则暂停。', getSteps: buildS1Steps },
-  'S2': { key:'S2', label:'明显脂溢性皮炎爆发 (S2)', icon:'🔴', desc:'明显泛红、脱屑、瘙痒、刺痛、大片爆发。', tips:'屏障修复模式。暂停维C、壬二酸、烟酰胺，直到刺痛泛红明显下降。', getSteps: buildS2Steps }
+  'stable': {
+    key:'stable', label:'稳定', icon:'🟢',
+    desc:'皮肤稳定，按 7 天周期轮换功效成分，避免每天无脑叠加。',
+    tips:'VC / 烟酰胺 / 壬二酸错开轮换。周日根据皮肤情况决定是否用壬二酸。',
+    getSteps: buildStableA0Steps
+  },
+  'acne': {
+    key:'acne', label:'部分位置长痘', icon:'🟡',
+    desc:'局部有红痘或小脓包，其他部位基本正常。',
+    tips:'只在痘痘处点涂壬二酸，其他部位照常修护。一天只保留一个主要活性。',
+    getSteps: buildA1Steps
+  },
+  'severe': {
+    key:'severe', label:'严重（皮炎/过敏/爆发）', icon:'🔴',
+    desc:'脂溢性皮炎明显爆发、过敏泛红刺痛、或大面积红肿痘。',
+    tips:'屏障修复模式：暂停维C、壬二酸、烟酰胺，只做洁面 + B5 + 保湿 + 防晒。严重请就医。',
+    getSteps: buildS2Steps
+  }
 };
 
 function checkSkinStateDailyReset(){
@@ -2696,17 +2864,30 @@ function checkSkinStateDailyReset(){
   const lastDate = Store.load('skinStateDate', '');
   if (lastDate === today) return;
   const prevState = state.skinState;
-  state.skinState = 'A0_S0';
-  Store.save('skinState', 'A0_S0');
+  state.skinState = 'stable';
+  Store.save('skinState', 'stable');
   Store.save('skinStateDate', today);
-  if (prevState && prevState !== 'A0_S0') {
+  if (prevState && prevState !== 'stable') {
     setTimeout(() => {
       try {
         const label = (SKIN_STATES[prevState] && SKIN_STATES[prevState].label) || prevState;
-        alert(`新的一天，皮肤状态已自动回到「稳定 (A0+S0)」。\n如仍需按昨天「${label}」执行，请手动切换。`);
+        alert(`新的一天，皮肤状态已自动回到「稳定」。\n如仍需按昨天「${label}」执行，请手动切换。`);
       } catch(e){}
     }, 600);
   }
+}
+
+function checkProductExpiry(prod){
+  if (!prod || !prod.openedAt) return { expired:false, days:0, threshold:0, label:'' };
+  const opened = new Date(prod.openedAt + 'T00:00:00');
+  if (isNaN(opened.getTime())) return { expired:false, days:0, threshold:0, label:'' };
+  const days = Math.floor((Date.now() - opened.getTime()) / 86400000);
+  const n = String(prod.name || '');
+  let threshold = 365;
+  if (/维C|维 C|乙基维|VC|维A|视黄醇|壬二酸|BPO|过氧化苯甲/i.test(n)) threshold = 90;
+  else if (/精华|安瓶|眼霜|serum/i.test(n)) threshold = 180;
+  else if (/防晒/i.test(n)) threshold = 365;
+  return { expired: days > threshold, days, threshold, label:`已开封 ${days} 天 / 建议 ${threshold} 天内用完` };
 }
 
 function getSkinProductForStep(stepId, defaultKey){
@@ -2739,7 +2920,7 @@ function applyProfileDraft(){
 }
 
 function renderSkin(){
-  const s = SKIN_STATES[state.skinState] || SKIN_STATES['A0_S0'];
+  const s = SKIN_STATES[state.skinState] || SKIN_STATES['stable'];
   const steps = s.getSteps();
 
   $('#skinOptions').innerHTML = Object.values(SKIN_STATES).map(v => `
@@ -2749,19 +2930,15 @@ function renderSkin(){
     </div>`).join('');
 
   let stateNote = '';
-  if (s.key === 'A0_S0') {
+  if (s.key === 'stable') {
     const day = getDayIndexForSkin();
     const dayNames = ['周一','周二','周三','周四','周五','周六','周日'];
     const note = STABLE_DAY_NOTES[day-1] || '';
     stateNote = `<div class="vis-item" style="border-bottom:none;padding-top:10px;background:#EAF3FF;border-radius:10px;padding:10px;margin-top:8px"><span class="ic">🔄</span><span><b>今天${dayNames[day-1]}</b>：${note}</span></div>`;
-  } else if (s.key === 'A1') {
-    stateNote = `<div class="vis-item" style="border-bottom:none;padding-top:10px;background:#FFF4E0;border-radius:10px;padding:10px;margin-top:8px"><span class="ic">⚡</span><span>本次只用一个活性成分，其余全部是修护。</span></div>`;
-  } else if (s.key === 'A2') {
-    stateNote = `<div class="vis-item" style="border-bottom:none;padding-top:10px;background:#FFEDEA;border-radius:10px;padding:10px;margin-top:8px"><span class="ic">🚫</span><span><b>严禁</b>：挤压、针挑、刷酸、叠涂活性。深部结节反复出现应看皮肤科。</span></div>`;
-  } else if (s.key === 'S1') {
-    stateNote = `<div class="vis-item" style="border-bottom:none;padding-top:10px;background:#FFF4E0;border-radius:10px;padding:10px;margin-top:8px"><span class="ic">⚠️</span><span>维C暂缓。壬二酸仅在无皮炎区域、不刺痛时局部使用。</span></div>`;
-  } else if (s.key === 'S2') {
-    stateNote = `<div class="vis-item" style="border-bottom:none;padding-top:10px;background:#FFEDEA;border-radius:10px;padding:10px;margin-top:8px"><span class="ic">🛑</span><span><b>屏障修复模式</b>：暂停维C、壬二酸、烟酰胺，直到刺痛泛红明显下降。</span></div>`;
+  } else if (s.key === 'acne') {
+    stateNote = `<div class="vis-item" style="border-bottom:none;padding-top:10px;background:#FFF4E0;border-radius:10px;padding:10px;margin-top:8px"><span class="ic">⚡</span><span>只在痘痘处点涂壬二酸，其他部位照常修护；一天只保留一个主要活性。</span></div>`;
+  } else if (s.key === 'severe') {
+    stateNote = `<div class="vis-item" style="border-bottom:none;padding-top:10px;background:#FFEDEA;border-radius:10px;padding:10px;margin-top:8px"><span class="ic">🛑</span><span><b>屏障修复模式</b>：暂停维C、壬二酸、烟酰胺，直到刺痛泛红明显下降。严重请就医。</span></div>`;
   }
 
   $('#skinDescCard').innerHTML = `
@@ -2778,10 +2955,24 @@ function renderSkin(){
       const checkKey = `skin_${todayStr()}_${it.id}`;
       let prodHtml = '', evalHtml = '';
       if (prod) {
-        prodHtml = `<div class="step-product" data-pick-product="${it.id}"><span>🧴</span><span>${prod.name}</span><span class="arrow">更换 ›</span></div>`;
+        const exp = checkProductExpiry(prod);
         const r = analyzeIngredients(prod.name, prod.ingredients, prod.key);
         const tagText = r.level === 'ok' ? '适合' : r.level === 'caution' ? '谨慎' : '不建议';
-        evalHtml = `<div class="product-eval ${r.level}"><div class="pe-head"><span class="pe-tag">${tagText}</span><span class="pe-name">${r.product.name}</span></div><div style="font-size:11px;color:#7A8196;margin-bottom:4px">成分：${r.product.ingredients}</div><div class="pe-reason">${r.reasons.map(x => '· ' + x).join('<br>')}</div></div>`;
+        const tagCls = r.level === 'ok' ? 'ok' : r.level === 'caution' ? 'warn' : 'danger';
+        const expTag = exp.days > 0
+          ? `<span style="font-size:10px;color:${exp.expired?'#FF6B5B':'#8A90A2'};font-weight:500;flex:none">${exp.expired?'⚠️超期':'开封'+exp.days+'天'}</span>`
+          : '';
+        prodHtml = `<div class="step-product" data-pick-product="${it.id}">
+          <span>🧴</span>
+          <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${prod.name}</span>
+          <span class="prod-tag ${tagCls}">${tagText}</span>
+          ${expTag}
+          <button class="ask-ai-btn" data-ask-ai="${it.id}" title="让 AI 分析">✨</button>
+          <span class="arrow">更换 ›</span>
+        </div>`;
+        if (exp.expired) {
+          prodHtml += `<div class="alert-box" style="margin-top:6px">⚠️ 这支产品${exp.label}。活性成分可能已氧化，建议更换。</div>`;
+        }
       } else {
         prodHtml = `<div class="step-product empty" data-pick-product="${it.id}">＋ 点击选择/输入产品</div>`;
       }
@@ -2791,7 +2982,7 @@ function renderSkin(){
         <span class="check" data-check-key="${checkKey}" style="margin-top:4px"></span>
         <div class="step-body">
           <div class="step-name">${it.name}<span class="step-group-tag">${groupLabel}</span> <span class="muted" style="font-weight:400">${it.note || ''}</span></div>
-          ${prodHtml}${evalHtml}
+          ${prodHtml}
         </div>
         ${delBtn}
       </div>`;
@@ -2806,6 +2997,7 @@ function renderSkin(){
 function openProductSheet(stepId){
   state.pickingSkinStep = stepId;
   $('#prodManualName').value = ''; $('#prodManualIngr').value = '';
+  if ($('#prodOpenedAt')) $('#prodOpenedAt').value = '';
   $('#ingrImgPreview').style.display = 'none'; $('#ingrImgPreview').removeAttribute('src');
   $('#manualAnalysisResult').innerHTML = '';
   $('#prodSheet').classList.add('show'); $('#prodMask').classList.add('show');
@@ -3347,25 +3539,6 @@ function saveSettings(){
   closeSettings(); renderCloset(); renderSportBodyStats(); renderSkin(); renderHistorySummary();
 }
 
-function restoreScales(){
-  const savedPain = state.painScore;
-  const painScale = $('#painScale');
-  if (painScale && savedPain >= 0 && savedPain < painScale.children.length) {
-    [...painScale.children].forEach((el, i) => { el.classList.remove('on','warn'); if (i < savedPain) el.classList.add('warn'); });
-    painScale.children[savedPain].classList.add('on');
-    const tag = $('#painTag');
-    if (savedPain <= 2) { tag.textContent = '可训练'; tag.className = 'tag on'; }
-    else if (savedPain <= 4) { tag.textContent = '建议减量'; tag.className = 'tag'; }
-    else { tag.textContent = '建议休息'; tag.className = 'tag'; }
-  }
-  const savedRpe = state.rpeScore;
-  const rpeScale = $('#rpeScale');
-  if (rpeScale && savedRpe >= 0 && savedRpe < rpeScale.children.length) {
-    [...rpeScale.children].forEach((el, i) => { el.classList.remove('on','warn'); if (i < savedRpe) el.classList.add('warn'); });
-    rpeScale.children[savedRpe].classList.add('on');
-  }
-}
-
 /* ===== 全局持久化 flush ===== */
 function flushAll(){
   try {
@@ -3375,8 +3548,6 @@ function flushAll(){
     Store.save('body', body);
     Store.save('profile', profile);
     Store.save('customCats', state.customCats);
-    Store.save('painScore', state.painScore);
-    Store.save('rpeScore', state.rpeScore);
     Store.save('skinState', state.skinState);
     Store.save('freeSlots', state.freeSlots);
     Store.save('selectedDate', state.selectedDate);
@@ -3521,6 +3692,31 @@ document.addEventListener('click', e => {
   if (e.target.closest('#saveTodoBtn')) { saveTodo(); return; }
   if (e.target.closest('#closePick') || e.target.closest('#pickMask')) { closePickSheet(); return; }
   if (e.target.closest('#closeProd') || e.target.closest('#prodMask')) { closeProductSheet(); return; }
+
+  const askAiBtn = e.target.closest('[data-ask-ai]');
+  if (askAiBtn) {
+    e.stopPropagation();
+    const stepId = askAiBtn.dataset.askAi;
+    let prod = null;
+    const s = SKIN_STATES[state.skinState];
+    if (s) {
+      const steps = s.getSteps();
+      const allSteps = [...steps.morning, ...steps.night];
+      const step = allSteps.find(x => x.id === stepId);
+      if (step) prod = getSkinProductForStep(step.id, step.defaultProduct);
+    }
+    if (!prod) { alert('未找到产品，请先选择或输入产品'); return; }
+    const question = `我用的产品是「${prod.name}」，成分表：${prod.ingredients || '未填写'}。请帮我分析是否适合我现在的皮肤状态（${SKIN_STATES[state.skinState].label}）。`;
+    const chatPanel = document.getElementById('chatPanel');
+    const chatInput = document.getElementById('chatInput');
+    if (chatPanel && chatInput) {
+      chatPanel.classList.add('show');
+      chatInput.value = question;
+      setTimeout(() => document.getElementById('chatSendBtn')?.click(), 300);
+    }
+    return;
+  }
+
   if (e.target.closest('#analyzeManualBtn')) {
     const name = $('#prodManualName').value.trim();
     const ingr = $('#prodManualIngr').value.trim();
@@ -3530,7 +3726,8 @@ document.addEventListener('click', e => {
     $('#manualAnalysisResult').innerHTML = `<div class="product-eval ${result.level}"><div class="pe-head"><span class="pe-tag">${tagText}</span><span class="pe-name">分析结果</span></div><div class="pe-reason">${result.reasons.map(x => '· ' + x).join('<br>')}</div></div>`;
     const stepId = state.pickingSkinStep;
     if (stepId && (name || ingr)) {
-      state.skinProducts[stepId] = { key:null, name: name || '自定义产品', ingredients: ingr || '未填写', brand:'手动输入' };
+      const openedAt = ($('#prodOpenedAt') && $('#prodOpenedAt').value) || '';
+      state.skinProducts[stepId] = { key:null, name: name || '自定义产品', ingredients: ingr || '未填写', brand:'手动输入', openedAt };
       saveSkinProducts();
       setTimeout(() => { closeProductSheet(); renderSkin(); }, 800);
     }
@@ -3731,21 +3928,6 @@ document.addEventListener('click', e => {
     if (!state.freeSlots.some(Boolean)) { alert('还没有选择任何单品'); return; }
     alert('搭配已保存！'); return;
   }
-  const scaleItem = e.target.closest('.scale i');
-  if (scaleItem) {
-    const parent = scaleItem.parentElement;
-    const idx = [...parent.children].indexOf(scaleItem);
-    [...parent.children].forEach((el, i) => { el.classList.remove('on','warn'); if (i < idx) el.classList.add('warn'); });
-    scaleItem.classList.add('on');
-    if (parent.id === 'painScale') {
-      state.painScore = idx; Store.save('painScore', idx);
-      const tag = $('#painTag');
-      if (idx <= 2) { tag.textContent = '可训练'; tag.className = 'tag on'; }
-      else if (idx <= 4) { tag.textContent = '建议减量'; tag.className = 'tag'; }
-      else { tag.textContent = '建议休息'; tag.className = 'tag'; }
-    }
-    if (parent.id === 'rpeScale') { state.rpeScore = idx; Store.save('rpeScore', idx); }
-  }
 });
 
 document.addEventListener('change', e => {
@@ -3767,6 +3949,25 @@ document.addEventListener('input', e => {
     imgState.rotation = Number(e.target.value);
     $('#rotateVal').textContent = Math.round(imgState.rotation) + '°';
     applyTransform();
+    return;
+  }
+  if (e.target.id === 'searchTodoUndone' || e.target.id === 'searchTodoAll') {
+    state.search.todo = e.target.value.trim();
+    const a = document.getElementById('searchTodoUndone');
+    const b = document.getElementById('searchTodoAll');
+    if (a && a !== e.target) a.value = e.target.value;
+    if (b && b !== e.target) b.value = e.target.value;
+    renderAllTodo(); renderUndone();
+    return;
+  }
+  if (e.target.id === 'searchTx') {
+    state.search.tx = e.target.value.trim();
+    renderMoney();
+    return;
+  }
+  if (e.target.id === 'searchClothes') {
+    state.search.clothes = e.target.value.trim();
+    renderLibrary();
     return;
   }
   const id = e.target.id;
@@ -3864,12 +4065,28 @@ function init(){
   renderSportAll(); renderCloset(); renderLibrary(); renderAIMatch();
   renderFreeSlots(); renderFreeOptions(); renderCalendar(); renderAllTodo();
   renderUndone(); renderProfile(); checkSkinStateDailyReset(); renderSkin(); renderSupplements();
-  initCropDrag(); updatePreview(); restoreScales(); applyChecks(); recordTodayBody();
+  initCropDrag(); updatePreview(); recordTodayBody();
 
   preloadAllImages().then(() => {
     renderLibrary(); renderAIMatch();
     renderFreeSlots(); renderFreeOptions();
   }).catch(e => console.warn('preload images failed', e));
+
+  try {
+    if (window.AndroidBridge) {
+      const sitOn = Store.load('app_setting_sit_reminder', true);
+      const notifOn = Store.load('app_setting_notification', true);
+      if (typeof AndroidBridge.setSitReminder === 'function') AndroidBridge.setSitReminder(!!sitOn);
+      if (typeof AndroidBridge.setBackupReminder === 'function') AndroidBridge.setBackupReminder(!!notifOn);
+    }
+  } catch(err){ console.warn('sync settings to android failed', err); }
+
+  try {
+    if (window.AndroidBridge && typeof AndroidBridge.saveDailyBackup === 'function' && window.__collectBackup) {
+      const pack = window.__collectBackup();
+      AndroidBridge.saveDailyBackup(JSON.stringify(pack));
+    }
+  } catch(e) { console.warn('daily backup failed', e); }
 
   setInterval(() => { cleanupOldChecks(); cleanupOldSets(); cleanupOldSportSessions(); }, 5 * 60 * 1000);
   setInterval(checkDayChange, 60 * 1000);
@@ -3877,7 +4094,636 @@ function init(){
 }
 init();
 
-/* ========== 增强补丁 v3.5：设置 / 备份 / 久坐提醒 / 通知 / 分类导出 ========== */
+/* ========== AI 聊天 + AI 搭配 ========== */
+(function(){
+  const chatPanel = document.getElementById('chatPanel');
+  const chatBody = document.getElementById('chatBody');
+  const chatInput = document.getElementById('chatInput');
+  const chatSendBtn = document.getElementById('chatSendBtn');
+  const chatCloseBtn = document.getElementById('chatCloseBtn');
+  const chatClearBtn = document.getElementById('chatClearBtn');
+  const chatEmpty = document.getElementById('chatEmpty');
+  if (!chatPanel) return;
+
+  let messages = [];
+  let pendingAIBubble = null;
+  let pendingText = '';
+  let isWaiting = false;
+
+  function loadHistory(){
+    try { messages = JSON.parse(window.__appStorageGet('chatHistory') || '[]'); } catch(e){ messages = []; }
+  }
+  function saveHistory(){
+    try { window.__appStorageSet('chatHistory', JSON.stringify(messages.slice(-50))); } catch(e){}
+  }
+  function scrollBottom(){
+    setTimeout(() => { chatBody.scrollTop = chatBody.scrollHeight; }, 20);
+  }
+  function escapeHtml(s){
+    return String(s == null ? '' : s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+  function appendBubble(role, text){
+    const div = document.createElement('div');
+    div.className = 'chat-msg ' + (role === 'user' ? 'user' : role === 'system' ? 'system' : 'ai');
+    const avatar = role === 'user' ? '👤' : role === 'system' ? '⚠️' : '✨';
+    div.innerHTML = `<div class="avatar">${avatar}</div><div class="bubble">${escapeHtml(text)}</div>`;
+    chatBody.appendChild(div);
+    return div.querySelector('.bubble');
+  }
+  function renderAll(){
+    chatBody.querySelectorAll('.chat-msg').forEach(el => el.remove());
+    if (!messages.length) { chatEmpty.style.display = 'block'; return; }
+    chatEmpty.style.display = 'none';
+    messages.forEach(m => appendBubble(m.role, m.text));
+    scrollBottom();
+  }
+  function addMessage(role, text){
+    messages.push({ role, text, time: Date.now() });
+    saveHistory();
+    chatEmpty.style.display = 'none';
+    appendBubble(role, text);
+    scrollBottom();
+    return chatBody.querySelector('.chat-msg:last-child .bubble');
+  }
+  function setWaiting(v){ isWaiting = v; chatSendBtn.disabled = v; }
+
+  function buildContextSnapshot(){
+    try {
+      const now = new Date();
+      const ym = fmtDate(now).slice(0, 7);
+      const t = todayStr();
+      const txList = state.transactions || [];
+      const monthTx = txList.filter(x => x.date && x.date.startsWith(ym));
+      const monthExp = monthTx.filter(x => x.type === 'expense').reduce((s, x) => s + x.amount, 0);
+      const monthInc = monthTx.filter(x => x.type === 'income').reduce((s, x) => s + x.amount, 0);
+      const catMap = {};
+      monthTx.filter(x => x.type === 'expense').forEach(x => { catMap[x.category] = (catMap[x.category] || 0) + x.amount; });
+      const topCats = Object.entries(catMap).sort((a,b) => b[1]-a[1]).slice(0,3)
+        .map(([k,v]) => `${k}¥${v.toFixed(0)}`).join('、') || '无';
+      const sessions = getSportSessions();
+      let sportCount = 0, sportMin = 0;
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(); d.setDate(d.getDate() - i);
+        const s = sessions[fmtDate(d)];
+        if (s && s.endTs) { sportCount++; sportMin += Math.round((s.endTs - s.startTs) / 60000); }
+      }
+      const todayPlan = currentPlan();
+      const todaySess = getSportSession();
+      const hist = getBodyHistory();
+      const todayBody = hist.find(x => x.date === t);
+      const yBody = getYesterdayBody();
+      const w = todayBody ? todayBody.weight : body.weight;
+      const dw = yBody ? (w - yBody.weight) : null;
+      const skinKey = state.skinState;
+      const skinLabel = (typeof SKIN_STATES !== 'undefined' && SKIN_STATES[skinKey]) ? SKIN_STATES[skinKey].label : skinKey;
+      const todoList = (state.calendarData[t] || []).slice(0, 5).map(x => x.title).join('、') || '无';
+      return [
+        `【当前日期】${fmtDate(now)} 星期${['日','一','二','三','四','五','六'][now.getDay()]}`,
+        `【身体】体重${w.toFixed(1)}kg${dw !== null ? `（较昨日${dw>0?'↑':dw<0?'↓':'持平'}${Math.abs(dw).toFixed(1)}kg）` : ''}，体脂${(todayBody?todayBody.bodyFat:body.bodyFat).toFixed(1)}%`,
+        `【本月账目】支出¥${monthExp.toFixed(2)}，收入¥${monthInc.toFixed(2)}，前三大类：${topCats}`,
+        `【近7天运动】共${sportCount}次，${sportMin}分钟`,
+        `【今日运动计划】${todayPlan.isTraining ? todayPlan.label + '（' + todayPlan.duration + '）' : '休息日'}`,
+        todaySess ? `【今日打卡状态】已开始于${todaySess.startLabel || '—'}${todaySess.endTs ? '，已结束' : '，进行中'}` : '',
+        `【皮肤状态】${skinLabel}`,
+        `【今日待办】${todoList}`
+      ].filter(Boolean).join('\n');
+    } catch(e) { console.warn('snapshot failed', e); return ''; }
+  }
+
+  function sendMessage(){
+    const text = chatInput.value.trim();
+    if (!text || isWaiting) return;
+    chatInput.value = '';
+    chatInput.style.height = 'auto';
+    addMessage('user', text);
+
+    if (!window.AndroidBridge || typeof AndroidBridge.sendChat !== 'function') {
+      addMessage('system', 'AI 聊天功能暂不可用（未接入 Android 端）');
+      return;
+    }
+    pendingText = '';
+    pendingAIBubble = addMessage('ai', '');
+    pendingAIBubble.innerHTML = '<span class="chat-typing"></span>';
+    setWaiting(true);
+    try {
+      const snapshot = buildContextSnapshot();
+      const payload = snapshot
+        ? `【用户当前数据（仅内部参考，非用户直接输入）】\n${snapshot}\n\n【用户问题】\n${text}`
+        : text;
+      AndroidBridge.sendChat(payload);
+    } catch(e) {
+      setWaiting(false);
+      if (pendingAIBubble) pendingAIBubble.textContent = '发送失败：' + e.message;
+    }
+  }
+
+  function requestAIStyling(){
+    const scene = state.aiScene || '通勤';
+    const clothes = state.clothes || [];
+    const card = document.getElementById('aiStylingCard');
+    if (!card) return;
+    if (!clothes.length) {
+      card.innerHTML = '<p class="tip" style="color:#8A90A2">衣橱还没有单品，先去「增加衣服」添加</p>';
+      return;
+    }
+    const list = clothes.map((c, i) => {
+      const meta = CATEGORIES[c.cat];
+      return `${i+1}. 品类:${meta.label} | 名称:${c.name||meta.label} | 颜色:${c.color||'未知'} | 季节:${c.season||'不限'} | 场合:${c.occasion||'不限'}`;
+    }).join('\n');
+    const prompt =
+      `我衣橱里有以下单品：\n${list}\n\n` +
+      `请挑选一套适合【${scene}】场景的搭配，3-4 件，必须包含上装和下装/裙装。\n` +
+      `务必只返回 JSON，不要任何解释文字，格式：\n` +
+      `{"reason":"一句话说明为什么这么搭","items":[{"cat":"top","name":"单品名称"},{"cat":"pants","name":"单品名称"},{"cat":"shoes","name":"单品名称"}]}\n` +
+      `cat 只能是 top/pants/dress/coat/shoes/bag/acc；name 必须与清单里的名称完全一致。`;
+
+    card.innerHTML = '<div style="text-align:center;padding:24px 12px"><div class="chat-typing" style="width:12px;height:24px"></div><p style="margin-top:12px;font-size:13px;color:#8A90A2">AI 正在为你搭配…</p></div>';
+
+    if (window.AndroidBridge && typeof AndroidBridge.sendStyling === 'function') {
+      window.__stylingBuf = '';
+      window.__stylingScene = scene;
+      AndroidBridge.sendStyling(prompt);
+    } else {
+      card.innerHTML = '<div class="alert-box">AI 搭配需要 Android 端支持</div>';
+    }
+  }
+
+  function renderStylingResult(raw){
+    const card = document.getElementById('aiStylingCard');
+    if (!card) return;
+    let data = null;
+    try {
+      const match = raw.match(/\{[\s\S]*\}/);
+      if (match) data = JSON.parse(match[0]);
+    } catch(e) { console.warn('parse styling failed', e); }
+    if (!data || !data.items || !data.items.length) {
+      card.innerHTML = `<div class="alert-box">AI 没能返回有效搭配，请重试</div><div style="margin-top:8px;font-size:11px;color:#8A90A2;word-break:break-all">AI 原文：${escapeHtml(raw.slice(0,300))}</div>`;
+      return;
+    }
+    const picks = [];
+    data.items.forEach(it => {
+      let found = state.clothes.find(c => c.name === it.name);
+      if (!found) found = state.clothes.find(c => c.cat === it.cat && !picks.some(p => p.id === c.id));
+      if (found && !picks.some(p => p.id === found.id)) picks.push(found);
+    });
+    if (!picks.length) {
+      card.innerHTML = '<div class="alert-box">AI 推荐的单品不在衣橱里，请重试</div>';
+      return;
+    }
+    const cards = picks.map(c => {
+      const meta = CATEGORIES[c.cat];
+      const imgUrl = c.imageId ? (imageCache[c.imageId] || '') : (c.image || '');
+      const thumb = imgUrl
+        ? `<img src="${imgUrl}" style="width:100%;height:100%;object-fit:contain">`
+        : `<span style="font-size:24px">${meta.icon}</span>`;
+      return `<div style="flex:none;width:96px;background:#F7F8FC;border-radius:14px;padding:8px 6px;text-align:center;font-size:11px;color:#5A6175">
+        <div style="height:90px;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:6px">${thumb}</div>
+        <div style="font-weight:600;color:#1B1F2A;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escapeHtml(c.name || meta.label)}</div>
+        <div style="font-size:10px;color:#8A90A2;margin-top:2px">${meta.label}</div>
+      </div>`;
+    }).join('');
+    card.innerHTML = `
+      <div class="card-title">✨ AI 推荐搭配 <span class="tag on">${escapeHtml(window.__stylingScene || state.aiScene || '')}</span></div>
+      <div style="display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none">${cards}</div>
+      ${data.reason ? `<div class="suggest-box" style="margin-top:12px">${escapeHtml(data.reason)}</div>` : ''}
+      <button class="btn-ghost" id="aiStylingRetryBtn" style="margin-top:12px">↻ 换一套</button>
+    `;
+    document.getElementById('aiStylingRetryBtn')?.addEventListener('click', requestAIStyling);
+  }
+
+  window.onNativeChatResult = function(chunk, tag){
+    if (tag === 'styling') {
+      window.__stylingBuf = (window.__stylingBuf || '') + String(chunk || '');
+      return;
+    }
+    if (!pendingAIBubble) return;
+    pendingText += String(chunk || '');
+    pendingAIBubble.textContent = pendingText;
+    scrollBottom();
+  };
+  window.onNativeChatError = function(msg, tag){
+    if (tag === 'styling') {
+      const card = document.getElementById('aiStylingCard');
+      if (card) card.innerHTML = `<div class="alert-box">搭配失败：${escapeHtml(msg || '未知错误')}</div>`;
+      return;
+    }
+    setWaiting(false);
+    if (pendingAIBubble && !pendingText) {
+      try { pendingAIBubble.closest('.chat-msg').remove(); } catch(e){}
+      if (messages.length && messages[messages.length-1].role === 'ai') messages.pop();
+      saveHistory();
+    }
+    addMessage('system', 'AI 出错：' + (msg || '未知错误'));
+    pendingAIBubble = null;
+    pendingText = '';
+  };
+  window.onNativeChatState = function(state, tag){
+    if (tag === 'styling') {
+      if (state === 'finished') {
+        if (!window.__reportCtx) {
+          renderStylingResult(window.__stylingBuf || '');
+          window.__stylingBuf = '';
+        }
+      }
+      return;
+    }
+    if (state === 'finished') {
+      setWaiting(false);
+      if (messages.length && messages[messages.length-1].role === 'ai') {
+        messages[messages.length-1].text = pendingText;
+        saveHistory();
+      }
+      pendingAIBubble = null;
+      pendingText = '';
+    }
+  };
+
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('[data-open-chat]')) {
+      chatPanel.classList.add('show');
+      scrollBottom();
+      setTimeout(() => chatInput.focus(), 200);
+    }
+  });
+  chatCloseBtn.addEventListener('click', () => chatPanel.classList.remove('show'));
+  chatClearBtn.addEventListener('click', () => {
+    if (!confirm('确定清空所有对话记录吗？')) return;
+    messages = []; saveHistory(); renderAll();
+    addMessage('system', '对话已清空');
+  });
+  chatSendBtn.addEventListener('click', sendMessage);
+  chatInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  });
+  chatInput.addEventListener('input', () => {
+    chatInput.style.height = 'auto';
+    chatInput.style.height = Math.min(100, chatInput.scrollHeight) + 'px';
+  });
+  document.getElementById('chatQuick').addEventListener('click', (e) => {
+    const chip = e.target.closest('.qchip');
+    if (!chip) return;
+    chatInput.value = chip.dataset.q || chip.textContent;
+    sendMessage();
+  });
+
+  const stylingBtn = document.getElementById('aiStylingBtn');
+  if (stylingBtn) stylingBtn.addEventListener('click', requestAIStyling);
+
+  document.getElementById('aiSceneChips')?.addEventListener('click', (e) => {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    document.querySelectorAll('#aiSceneChips .chip').forEach(c => c.classList.remove('primary'));
+    chip.classList.add('primary');
+    state.aiScene = chip.dataset.scene;
+    Store.save('aiScene', state.aiScene);
+  });
+
+  loadHistory();
+  renderAll();
+})();
+
+/* ========== 周报 / 月报 ========== */
+(function(){
+  const reportPanel = document.getElementById('reportPanel');
+  const reportBody = document.getElementById('reportBody');
+  const reportCloseBtn = document.getElementById('reportCloseBtn');
+  const reportHistoryBtn = document.getElementById('reportHistoryBtn');
+  const reportHeaderTitle = document.getElementById('reportHeaderTitle');
+  if (!reportPanel) return;
+
+  function getWeekRange(offset){
+    const now = new Date(); now.setHours(0,0,0,0);
+    const dow = (now.getDay() + 6) % 7;
+    const mon = new Date(now); mon.setDate(mon.getDate() - dow + offset * 7);
+    const sun = new Date(mon); sun.setDate(sun.getDate() + 6);
+    return { start: fmtDate(mon), end: fmtDate(sun), startD: mon, endD: sun };
+  }
+  function getMonthRange(offset){
+    const now = new Date(); now.setHours(0,0,0,0);
+    const y = now.getFullYear(), m = now.getMonth() + offset;
+    const first = new Date(y, m, 1);
+    const last = new Date(y, m + 1, 0);
+    return { start: fmtDate(first), end: fmtDate(last), startD: first, endD: last, label: `${first.getFullYear()}年${first.getMonth()+1}月` };
+  }
+  function inRange(dateStr, range){
+    return dateStr >= range.start && dateStr <= range.end;
+  }
+
+  function collectStats(range){
+    const sessions = getSportSessions();
+    let sportCount = 0, sportMin = 0;
+    Object.keys(sessions).forEach(d => {
+      if (!inRange(d, range)) return;
+      const s = sessions[d];
+      if (s && s.endTs) {
+        sportCount++;
+        sportMin += Math.round((s.endTs - s.startTs) / 60000);
+      }
+    });
+    let todoTotal = 0, todoDone = 0;
+    Object.keys(state.calendarData).forEach(d => {
+      if (!inRange(d, range)) return;
+      (state.calendarData[d] || []).forEach(it => {
+        todoTotal++;
+        if (it.done) todoDone++;
+      });
+    });
+    const txList = state.transactions.filter(x => inRange(x.date, range));
+    const txExp = txList.filter(x => x.type === 'expense');
+    const txInc = txList.filter(x => x.type === 'income');
+    const totalExp = txExp.reduce((s, x) => s + x.amount, 0);
+    const totalInc = txInc.reduce((s, x) => s + x.amount, 0);
+    const catMap = {};
+    txExp.forEach(x => { catMap[x.category] = (catMap[x.category] || 0) + x.amount; });
+    const topCats = Object.entries(catMap).sort((a,b) => b[1]-a[1]).slice(0, 5);
+    const checks = getChecks();
+    let skinDone = 0;
+    Object.keys(checks).forEach(k => {
+      const m = k.match(/^skin_(\d{4}-\d{2}-\d{2})_/);
+      if (m && inRange(m[1], range) && checks[k]) skinDone++;
+    });
+    const hist = getBodyHistory();
+    const inRangeBody = hist.filter(x => inRange(x.date, range));
+    let weightStart = null, weightEnd = null, weightMin = null, weightMax = null;
+    if (inRangeBody.length) {
+      weightStart = inRangeBody[0].weight;
+      weightEnd = inRangeBody[inRangeBody.length - 1].weight;
+      weightMin = Math.min.apply(null, inRangeBody.map(x => x.weight));
+      weightMax = Math.max.apply(null, inRangeBody.map(x => x.weight));
+    }
+    return {
+      range, sportCount, sportMin, todoTotal, todoDone,
+      txCount: txList.length, totalExp, totalInc, topCats, skinDone,
+      weightStart, weightEnd, weightMin, weightMax
+    };
+  }
+
+  function diffDelta(cur, prev){
+    const d = cur - prev;
+    if (Math.abs(d) < 0.01) return { text: '持平', cls: 'same', d: 0 };
+    return d > 0 ? { text: `↑ ${d.toFixed(d < 10 ? 1 : 0)}`, cls: 'down', d } : { text: `↓ ${Math.abs(d).toFixed(Math.abs(d) < 10 ? 1 : 0)}`, cls: 'up', d };
+  }
+
+  function renderReport(report, aiText, aiPending){
+    const range = report.cur.range;
+    const cur = report.cur, prev = report.prev;
+    const label = report.type === 'week' ? '周报' : '月报';
+    const rangeLabel = report.type === 'week' ? `${range.start} ~ ${range.end}` : range.label;
+
+    reportHeaderTitle.textContent = label;
+    let html = `<div class="report-title">${label}</div><div class="report-sub">${rangeLabel}</div>`;
+
+    const sportDelta = diffDelta(cur.sportCount, prev.sportCount);
+    const minDelta = diffDelta(cur.sportMin, prev.sportMin);
+    html += `<div class="report-grid">
+      <div class="report-cell"><div class="rc-label">运动次数</div><div class="rc-value">${cur.sportCount} 次</div><div class="rc-delta ${sportDelta.cls}">${sportDelta.text}</div></div>
+      <div class="report-cell"><div class="rc-label">运动时长</div><div class="rc-value">${cur.sportMin}<span style="font-size:13px;font-weight:500;color:#8A90A2"> 分钟</span></div><div class="rc-delta ${minDelta.cls}">${minDelta.text}</div></div>
+      <div class="report-cell"><div class="rc-label">记账笔数</div><div class="rc-value">${cur.txCount} 笔</div><div class="rc-delta ${diffDelta(cur.txCount, prev.txCount).cls}">${diffDelta(cur.txCount, prev.txCount).text}</div></div>
+      <div class="report-cell"><div class="rc-label">护肤打卡</div><div class="rc-value">${cur.skinDone} 项</div><div class="rc-delta ${diffDelta(cur.skinDone, prev.skinDone).cls}">${diffDelta(cur.skinDone, prev.skinDone).text}</div></div>
+    </div>`;
+
+    if (cur.weightStart !== null && cur.weightEnd !== null) {
+      const wd = cur.weightEnd - cur.weightStart;
+      const wdText = wd > 0.05 ? `↑ ${wd.toFixed(1)} kg` : wd < -0.05 ? `↓ ${Math.abs(wd).toFixed(1)} kg` : '持平';
+      const wdCls = wd > 0.05 ? 'warn' : wd < -0.05 ? 'good' : '';
+      html += `<div class="report-card">
+        <div class="rc-title">⚖️ 体重变化</div>
+        <div class="report-line"><span class="rl-k">期初 → 期末</span><span class="rl-v">${cur.weightStart.toFixed(1)} → ${cur.weightEnd.toFixed(1)} kg</span></div>
+        <div class="report-line"><span class="rl-k">变化</span><span class="rl-v ${wdCls}">${wdText}</span></div>
+        <div class="report-line"><span class="rl-k">区间最低/最高</span><span class="rl-v">${cur.weightMin.toFixed(1)} / ${cur.weightMax.toFixed(1)} kg</span></div>
+      </div>`;
+    }
+
+    if (cur.todoTotal > 0) {
+      const pct = Math.round(cur.todoDone / cur.todoTotal * 100);
+      const cls = pct >= 80 ? 'good' : pct >= 50 ? '' : 'warn';
+      html += `<div class="report-card">
+        <div class="rc-title">✅ 待办完成</div>
+        <div class="report-line"><span class="rl-k">完成</span><span class="rl-v ${cls}">${cur.todoDone} / ${cur.todoTotal}（${pct}%）</span></div>
+      </div>`;
+    }
+
+    if (cur.txCount > 0) {
+      const expDelta = diffDelta(cur.totalExp, prev.totalExp);
+      let catLines = cur.topCats.map(([k, v]) =>
+        `<div class="report-line"><span class="rl-k">${k}</span><span class="rl-v">¥ ${v.toFixed(2)}</span></div>`).join('');
+      html += `<div class="report-card">
+        <div class="rc-title">💰 账目</div>
+        <div class="report-line"><span class="rl-k">支出</span><span class="rl-v">¥ ${cur.totalExp.toFixed(2)} <span style="font-size:11.5px;color:${expDelta.cls==='up'?'#FF6B5B':expDelta.cls==='down'?'#1FBFA9':'#8A90A2'}">${expDelta.text}</span></span></div>
+        <div class="report-line"><span class="rl-k">收入</span><span class="rl-v">¥ ${cur.totalInc.toFixed(2)}</span></div>
+        <div class="report-line"><span class="rl-k">结余</span><span class="rl-v">¥ ${(cur.totalInc - cur.totalExp).toFixed(2)}</span></div>
+        ${catLines ? `<div style="font-size:11.5px;color:#8A90A2;margin-top:10px;margin-bottom:4px">支出前几类：</div>${catLines}` : ''}
+      </div>`;
+    }
+
+    html += `<div class="report-card">
+      <div class="rc-title">🤖 AI 小结</div>
+      <div class="report-ai" id="reportAiBox">${aiPending ? '<span class="ai-typing"></span>' : (aiText || '（AI 未生成小结）')}</div>
+    </div>`;
+
+    html += `<div class="report-actions">
+      <button class="secondary" id="reportRegenBtn">↻ 重新生成</button>
+      <button class="primary" id="reportCloseBottomBtn">完成</button>
+    </div>`;
+
+    reportBody.innerHTML = html;
+
+    document.getElementById('reportCloseBottomBtn')?.addEventListener('click', () => reportPanel.classList.remove('show'));
+    document.getElementById('reportRegenBtn')?.addEventListener('click', () => generateReport(report.type, true));
+  }
+
+  function buildAiPrompt(type, cur, prev){
+    const label = type === 'week' ? '本周' : '本月';
+    const lastLabel = type === 'week' ? '上周' : '上月';
+    const curText = [
+      `运动：${cur.sportCount} 次，共 ${cur.sportMin} 分钟`,
+      `记账：${cur.txCount} 笔，支出 ¥${cur.totalExp.toFixed(2)}，收入 ¥${cur.totalInc.toFixed(2)}`,
+      cur.todoTotal > 0 ? `待办：完成 ${cur.todoDone}/${cur.todoTotal}` : '',
+      `护肤打卡：${cur.skinDone} 项`,
+      cur.weightStart !== null ? `体重：${cur.weightStart.toFixed(1)} → ${cur.weightEnd.toFixed(1)} kg` : ''
+    ].filter(Boolean).join('\n');
+    const prevText = [
+      `运动：${prev.sportCount} 次，共 ${prev.sportMin} 分钟`,
+      `记账：${prev.txCount} 笔，支出 ¥${prev.totalExp.toFixed(2)}`,
+      prev.todoTotal > 0 ? `待办：完成 ${prev.todoDone}/${prev.todoTotal}` : '',
+      `护肤打卡：${prev.skinDone} 项`
+    ].filter(Boolean).join('\n');
+    return `请为我的健康 ${label}写一段简短总结（80-150字），语气温和鼓励，指出 1-2 个亮点，1 个可以改进的地方，给出 1 条具体建议。不要用列表，直接写成连贯的段落。
+
+【${lastLabel}】\n${prevText}
+
+【${label}】\n${curText}`;
+  }
+
+  function generateReport(type, forceRegen){
+    let curRange, prevRange;
+    if (type === 'week') {
+      curRange = getWeekRange(-1);
+      prevRange = getWeekRange(-2);
+    } else {
+      curRange = getMonthRange(-1);
+      prevRange = getMonthRange(-2);
+    }
+    const cur = collectStats(curRange);
+    const prev = collectStats(prevRange);
+    const report = { type, cur, prev, generatedAt: Date.now() };
+
+    reportPanel.classList.add('show');
+    reportBody.scrollTop = 0;
+
+    renderReport(report, '', true);
+
+    if (window.AndroidBridge && typeof AndroidBridge.sendStyling === 'function') {
+      window.__reportAiBuf = '';
+      window.__reportCtx = { type };
+      const prompt = buildAiPrompt(type, cur, prev);
+      try {
+        AndroidBridge.sendStyling(prompt);
+      } catch(e) {
+        setReportAiText('AI 服务不可用');
+      }
+    } else {
+      setReportAiText('（当前环境无 AI 服务）');
+    }
+
+    saveReportToHistory(report);
+  }
+
+  function setReportAiText(text){
+    const box = document.getElementById('reportAiBox');
+    if (box) box.textContent = text;
+  }
+
+  function saveReportToHistory(report){
+    try {
+      const list = Store.load('reportHistory', []);
+      const key = report.type + '_' + report.cur.range.start;
+      const exist = list.findIndex(x => x.key === key);
+      const item = {
+        key, type: report.type,
+        rangeStart: report.cur.range.start,
+        rangeEnd: report.cur.range.end,
+        generatedAt: Date.now(),
+        stats: {
+          sportCount: report.cur.sportCount,
+          sportMin: report.cur.sportMin,
+          txCount: report.cur.txCount,
+          totalExp: report.cur.totalExp,
+          skinDone: report.cur.skinDone,
+          weightEnd: report.cur.weightEnd
+        }
+      };
+      if (exist >= 0) list[exist] = item; else list.push(item);
+      list.sort((a, b) => b.generatedAt - a.generatedAt);
+      Store.save('reportHistory', list.slice(0, 20));
+    } catch(e){}
+  }
+
+  const _origChatResult = window.onNativeChatResult;
+  window.onNativeChatResult = function(chunk, tag){
+    if (tag === 'styling' && window.__reportCtx) {
+      window.__reportAiBuf = (window.__reportAiBuf || '') + String(chunk || '');
+      setReportAiText(window.__reportAiBuf);
+      return;
+    }
+    if (typeof _origChatResult === 'function') _origChatResult(chunk, tag);
+  };
+  const _origChatState = window.onNativeChatState;
+  window.onNativeChatState = function(state, tag){
+    if (tag === 'styling' && window.__reportCtx && state === 'finished') {
+      window.__reportCtx = null;
+      window.__stylingBuf = '';
+      return;
+    }
+    if (typeof _origChatState === 'function') _origChatState(state, tag);
+  };
+  const _origChatError = window.onNativeChatError;
+  window.onNativeChatError = function(msg, tag){
+    if (tag === 'styling' && window.__reportCtx) {
+      setReportAiText('AI 生成失败：' + (msg || '未知错误'));
+      window.__reportCtx = null;
+      return;
+    }
+    if (typeof _origChatError === 'function') _origChatError(msg, tag);
+  };
+
+  function showHistory(){
+    const list = Store.load('reportHistory', []);
+    let html = '<div class="report-title">历史报告</div>';
+    if (!list.length) {
+      html += '<div class="report-empty">还没有历史报告<br>生成后会保存到这里</div>';
+    } else {
+      list.forEach(item => {
+        const d = new Date(item.generatedAt);
+        const dateStr = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+        const typeLabel = item.type === 'week' ? '周报' : '月报';
+        const s = item.stats || {};
+        html += `<div class="report-history-item" data-replay-type="${item.type}">
+          <div class="rhi-ic">${item.type === 'week' ? '📅' : '📆'}</div>
+          <div class="rhi-body">
+            <div class="rhi-t">${typeLabel} · ${item.rangeStart} ~ ${item.rangeEnd}</div>
+            <div class="rhi-s">运动 ${s.sportCount||0} 次 · 支出 ¥${(s.totalExp||0).toFixed(0)} · 生成于 ${dateStr}</div>
+          </div>
+        </div>`;
+      });
+    }
+    html += '<div class="report-actions"><button class="secondary" id="reportBackBtn" style="flex:1">返回</button></div>';
+    reportHeaderTitle.textContent = '历史报告';
+    reportBody.innerHTML = html;
+    document.getElementById('reportBackBtn')?.addEventListener('click', () => {
+      reportPanel.classList.remove('show');
+    });
+    reportBody.querySelectorAll('[data-replay-type]').forEach(el => {
+      el.addEventListener('click', () => {
+        generateReport(el.dataset.replayType, true);
+      });
+    });
+  }
+
+  function checkAutoGenerate(){
+    const now = new Date();
+    const dow = now.getDay();
+    const dom = now.getDate();
+    if (dow === 1) {
+      const key = 'week_' + getWeekRange(-1).start;
+      const list = Store.load('reportHistory', []);
+      if (!list.find(x => x.key === key)) {
+        const lastPrompt = Store.load('lastReportPrompt', 0);
+        if (Date.now() - lastPrompt > 20 * 3600 * 1000) {
+          Store.save('lastReportPrompt', Date.now());
+          setTimeout(() => { if (confirm('新的一周开始了，看看上周的健康报告？')) generateReport('week'); }, 1500);
+        }
+      }
+    }
+    if (dom === 1) {
+      const key = 'month_' + getMonthRange(-1).start;
+      const list = Store.load('reportHistory', []);
+      if (!list.find(x => x.key === key)) {
+        const lastPrompt = Store.load('lastReportPrompt', 0);
+        if (Date.now() - lastPrompt > 20 * 3600 * 1000) {
+          Store.save('lastReportPrompt', Date.now());
+          setTimeout(() => { if (confirm('新的一月开始了，看看上月健康报告？')) generateReport('month'); }, 1800);
+        }
+      }
+    }
+  }
+
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('[data-open-report]')) {
+      generateReport('week');
+    }
+  });
+  reportCloseBtn.addEventListener('click', () => reportPanel.classList.remove('show'));
+  reportHistoryBtn.addEventListener('click', showHistory);
+
+  window.__generateReport = generateReport;
+
+  setTimeout(checkAutoGenerate, 3000);
+})();
+
+/* ========== 增强补丁：设置 / 备份 / 历史备份 ========== */
 (function(){
   if (window.__enhancedV3) return; window.__enhancedV3 = true;
 
@@ -3893,7 +4739,7 @@ init();
 
   const BACKUP_KEYS = [
     'app_body','app_setsDone','app_supplements','app_profile','app_customCats',
-    'app_painScore','app_rpeScore','app_skinState','app_freeSlots',
+    'app_skinState','app_freeSlots',
     'app_selectedDate','app_calYear','app_calMonth','app_exportRange','app_aiScene','app_libFilter',
     'app_customSkinSteps','app_setting_sit_reminder','app_setting_notification',
     'app_setting_voice_duration','app_setting_sport_timeout',
@@ -3922,6 +4768,7 @@ init();
     });
     return { version:1, app:'health-life', exportedAt:new Date().toISOString(), data };
   }
+  window.__collectBackup = collectBackup;
 
   function downloadCsv(rows, filename){
     const csv = rows.map(r => r.map(csvEscape).join(',')).join('\r\n');
@@ -3984,7 +4831,7 @@ init();
     try {
       if (window.AndroidBridge && typeof AndroidBridge.saveBackup === 'function') {
         AndroidBridge.saveBackup(json);
-        alert(`已导出 ${count} 项数据。\n请将文件保存到网盘或电脑。`);
+        alert(`已导出 ${count} 项数据。`);
         return;
       }
     } catch(e){}
@@ -3996,9 +4843,7 @@ init();
       const a = document.createElement('a');
       a.href = url;
       a.download = `健康生活备份_${todayStr()}.json`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
       setTimeout(() => { try { URL.revokeObjectURL(url); } catch(e){} }, 3000);
       downloaded = true;
     } catch(e){}
@@ -4009,11 +4854,8 @@ init();
       ta.style.display = 'block';
       try { ta.focus(); ta.select(); } catch(e){}
     }
-    if (downloaded) {
-      alert(`已生成备份文件（共 ${count} 项数据）。\n文件名：健康生活备份_${todayStr()}.json\n\n若手机未弹出保存提示，请长按下方文本框全选复制，再粘贴到备忘录或网盘保存。`);
-    } else {
-      alert(`当前环境无法直接下载文件。\n\n已在下方生成备份文本（共 ${count} 项数据），请长按文本框全选复制，粘贴到备忘录或网盘保存。`);
-    }
+    if (downloaded) alert(`已生成备份文件（共 ${count} 项数据）。`);
+    else alert(`已在下方生成备份文本（共 ${count} 项数据），请长按复制。`);
   }
 
   function importBackup(file){
@@ -4021,26 +4863,23 @@ init();
     reader.onload = function(ev){
       let pack;
       try { pack = JSON.parse(ev.target.result); }
-      catch(e){ alert('文件格式错误，无法解析为 JSON'); return; }
+      catch(e){ alert('文件格式错误'); return; }
       const data = pack && pack.data;
-      if (!data || typeof data !== 'object') { alert('备份文件内容无效（缺少 data 字段）'); return; }
+      if (!data) { alert('备份文件内容无效'); return; }
       const keys = Object.keys(data);
-      if (!keys.length) { alert('备份文件为空，没有可恢复的数据'); return; }
-      if (!confirm(`将导入 ${keys.length} 项数据，覆盖当前所有记录。\n\n此操作不可撤销，确定继续吗？`)) return;
+      if (!keys.length) { alert('备份文件为空'); return; }
+      if (!confirm(`将导入 ${keys.length} 项数据，覆盖当前记录。确定继续？`)) return;
       let ok = 0;
-      keys.forEach(k => {
-        try { window.__appStorageSet(k, data[k]); ok++; } catch(e){}
-      });
+      keys.forEach(k => { try { window.__appStorageSet(k, data[k]); ok++; } catch(e){} });
       window.__appStorageSet('lastBackupAt', String(Date.now()));
-      alert(`已恢复 ${ok} 项数据。\n\n请完全关闭 App 后重新打开，以确保所有数据正确加载。`);
+      alert(`已恢复 ${ok} 项数据。请重启 App。`);
       setTimeout(() => { try { location.reload(); } catch(e){} }, 1000);
     };
-    reader.onerror = function(){ alert('读取文件失败，请重试'); };
     reader.readAsText(file);
   }
 
   function clearAllData(){
-    if (!confirm('⚠️ 即将删除全部数据：身体数据、账目记录、衣物、打卡、护肤档案、补剂等。\n\n此操作不可撤销，确定继续吗？')) return;
+    if (!confirm('⚠️ 即将删除全部数据。确定继续？')) return;
     if (!confirm('请再次确认：真的要清空所有数据吗？')) return;
     const keys = {};
     BACKUP_KEYS.forEach(k => { keys[k] = 1; });
@@ -4050,12 +4889,10 @@ init();
         if (k && k !== 'firstUseAt') keys[k] = 1;
       }
     } catch(e){}
-    Object.keys(keys).forEach(k => {
-      try { window.__appStorageRemove(k); } catch(e){}
-    });
+    Object.keys(keys).forEach(k => { try { window.__appStorageRemove(k); } catch(e){} });
     try { localStorage.clear(); } catch(e){}
     try { if (imageDB._db) imageDB._db.close(); indexedDB.deleteDatabase('health_app_images'); } catch(e){}
-    alert('已清空所有数据。\n\n页面即将刷新，App 将回到初始状态。');
+    alert('已清空所有数据。');
     setTimeout(() => { try { location.reload(); } catch(e){} }, 800);
   }
 
@@ -4063,12 +4900,9 @@ init();
     try {
       if (!getSetting('notification', true)) return;
       if (typeof Notification === 'undefined') return;
-      if (Notification.permission === 'granted') {
-        new Notification(title, { body });
-      } else if (Notification.permission !== 'denied') {
-        Notification.requestPermission().then(p => {
-          if (p === 'granted') new Notification(title, { body });
-        });
+      if (Notification.permission === 'granted') new Notification(title, { body });
+      else if (Notification.permission !== 'denied') {
+        Notification.requestPermission().then(p => { if (p === 'granted') new Notification(title, { body }); });
       }
     } catch(e){}
   }
@@ -4109,7 +4943,7 @@ init();
         '<select id="setSitReminder" style="' + SEL_CSS + '">' +
         '<option value="1"' + (sit?' selected':'') + '>开</option>' +
         '<option value="0"' + (!sit?' selected':'') + '>关</option></select></div>' +
-      '<div class="set-row"><span class="lb">后台通知</span>' +
+      '<div class="set-row"><span class="lb">后台通知 / 备份提醒</span>' +
         '<select id="setNotification" style="' + SEL_CSS + '">' +
         '<option value="1"' + (notif?' selected':'') + '>开</option>' +
         '<option value="0"' + (!notif?' selected':'') + '>关</option></select></div>' +
@@ -4127,8 +4961,17 @@ init();
       '<button id="exportDataBtn" style="width:100%;border:none;font-family:inherit;font-size:14px;font-weight:600;color:#fff;padding:13px;border-radius:12px;cursor:pointer;background:linear-gradient(135deg,#8B7CF6,#B39BFF);margin-bottom:8px">⬇️ 导出数据备份（JSON）</button>' +
       '<label for="importDataFile" style="display:block;text-align:center;width:100%;border:1.5px solid #E3E6EF;font-family:inherit;font-size:14px;font-weight:600;color:#5A6175;padding:12px;border-radius:12px;cursor:pointer;background:#fff;box-sizing:border-box">⬆️ 导入备份文件</label>' +
       '<input type="file" id="importDataFile" accept=".json,application/json" style="display:none">' +
-      '<p style="font-size:11.5px;color:#8A90A2;margin-top:8px;line-height:1.6">建议每 30 天导出一次，保存到网盘或电脑。</p>' +
-      '<textarea id="backupTextBox" readonly placeholder="点击上方按钮后，备份内容会显示在这里，可长按全选复制" style="display:none;width:100%;height:150px;margin-top:10px;border:1.5px solid #E3E6EF;border-radius:10px;padding:10px;font-size:11px;font-family:monospace;line-height:1.5;color:#3A4152;background:#fff;outline:none;box-sizing:border-box"></textarea>' +
+      '<p style="font-size:11.5px;color:#8A90A2;margin-top:8px;line-height:1.6">建议每 30 天导出一次。</p>' +
+      '<textarea id="backupTextBox" readonly placeholder="点击上方按钮后，备份内容会显示在这里" style="display:none;width:100%;height:150px;margin-top:10px;border:1.5px solid #E3E6EF;border-radius:10px;padding:10px;font-size:11px;font-family:monospace;line-height:1.5;color:#3A4152;background:#fff;outline:none;box-sizing:border-box"></textarea>' +
+      '<div style="font-size:12px;font-weight:700;color:#8A90A2;letter-spacing:.5px;margin:20px 0 8px;padding-top:16px;border-top:1px solid #EDEFF5">健康报告</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">' +
+        '<button id="genWeekReportBtn" style="border:none;font-family:inherit;font-size:13px;font-weight:600;color:#fff;padding:12px;border-radius:12px;cursor:pointer;background:linear-gradient(135deg,#1FBFA9,#5FD9C4)">📅 生成周报</button>' +
+        '<button id="genMonthReportBtn" style="border:none;font-family:inherit;font-size:13px;font-weight:600;color:#fff;padding:12px;border-radius:12px;cursor:pointer;background:linear-gradient(135deg,#4A9EFF,#7FC4FF)">📆 生成月报</button>' +
+      '</div>' +
+      '<button id="openReportHistoryBtn" style="width:100%;border:none;font-family:inherit;font-size:14px;font-weight:600;color:#5A6175;padding:13px;border-radius:12px;cursor:pointer;background:#F3F5F9;margin-bottom:12px">📂 查看历史报告</button>' +
+      '<div style="font-size:12px;font-weight:700;color:#8A90A2;letter-spacing:.5px;margin:20px 0 8px;padding-top:16px;border-top:1px solid #EDEFF5">历史备份（自动，最近 7 天）</div>' +
+      '<button id="listBackupsBtn" style="width:100%;border:none;font-family:inherit;font-size:14px;font-weight:600;color:#5A6175;padding:13px;border-radius:12px;cursor:pointer;background:#F3F5F9;margin-bottom:8px">📂 查看历史备份</button>' +
+      '<div id="backupListBox" style="display:none;margin-bottom:12px"></div>' +
       '<div style="font-size:12px;font-weight:700;color:#8A90A2;letter-spacing:.5px;margin:20px 0 8px;padding-top:16px;border-top:1px solid #EDEFF5">分类导出（CSV）</div>' +
       '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">' +
         '<button id="exportWeightCsvBtn" style="border:none;font-family:inherit;font-size:12.5px;font-weight:600;color:#5A6175;padding:10px;border-radius:10px;cursor:pointer;background:#F3F5F9">⚖️ 体重体脂</button>' +
@@ -4137,22 +4980,27 @@ init();
         '<button id="exportTxCsvBtn" style="border:none;font-family:inherit;font-size:12.5px;font-weight:600;color:#5A6175;padding:10px;border-radius:10px;cursor:pointer;background:#F3F5F9">💰 记账记录</button>' +
       '</div>' +
       '<div style="font-size:12px;font-weight:700;color:#FF6B5B;letter-spacing:.5px;margin:20px 0 8px;padding-top:16px;border-top:1px solid #EDEFF5">危险操作</div>' +
-      '<button id="clearAllDataBtn" style="width:100%;border:1.5px solid #FF6B5B;font-family:inherit;font-size:14px;font-weight:600;color:#FF6B5B;padding:13px;border-radius:12px;cursor:pointer;background:#FFEDEA">🗑️ 清空所有数据（不可恢复）</button>' +
-      '<p style="font-size:11.5px;color:#8A90A2;margin-top:8px;line-height:1.6">清空后将回到初始状态。请先导出备份再操作。</p>';
+      '<button id="clearAllDataBtn" style="width:100%;border:1.5px solid #FF6B5B;font-family:inherit;font-size:14px;font-weight:600;color:#FF6B5B;padding:13px;border-radius:12px;cursor:pointer;background:#FFEDEA">🗑️ 清空所有数据（不可恢复）</button>';
     b.appendChild(d);
 
     d.addEventListener('change', function(e){
       const id = e.target.id;
-      if (id === 'setSitReminder') saveSetting('sit_reminder', e.target.value === '1');
+      if (id === 'setSitReminder') {
+        const on = e.target.value === '1';
+        saveSetting('sit_reminder', on);
+        try { if (window.AndroidBridge && typeof AndroidBridge.setSitReminder === 'function') AndroidBridge.setSitReminder(on); } catch(err){}
+      }
       else if (id === 'setNotification') {
-        saveSetting('notification', e.target.value === '1');
-        if (e.target.value === '1' && typeof Notification !== 'undefined' && Notification.permission === 'default') {
+        const on = e.target.value === '1';
+        saveSetting('notification', on);
+        try { if (window.AndroidBridge && typeof AndroidBridge.setBackupReminder === 'function') AndroidBridge.setBackupReminder(on); } catch(err){}
+        if (on && typeof Notification !== 'undefined' && Notification.permission === 'default') {
           try { Notification.requestPermission(); } catch(e){}
         }
       }
       else if (id === 'setVoiceDuration') {
         saveSetting('voice_duration', parseInt(e.target.value));
-        alert('语音时长已保存，立即生效。');
+        alert('语音时长已保存。');
       }
       else if (id === 'setSportTimeout') saveSetting('sport_timeout', e.target.value === '1');
       else if (id === 'importDataFile') {
@@ -4169,6 +5017,72 @@ init();
       if (e.target.closest('#exportSportCsvBtn')) { e.preventDefault(); exportSportCsv(); return; }
       if (e.target.closest('#exportSkinCsvBtn')) { e.preventDefault(); exportSkinCsv(); return; }
       if (e.target.closest('#exportTxCsvBtn')) { e.preventDefault(); exportTxCsv(); return; }
+      if (e.target.closest('#genWeekReportBtn')) {
+        e.preventDefault();
+        if (window.__generateReport) window.__generateReport('week');
+        document.getElementById('settingsMask')?.click();
+        return;
+      }
+      if (e.target.closest('#genMonthReportBtn')) {
+        e.preventDefault();
+        if (window.__generateReport) window.__generateReport('month');
+        document.getElementById('settingsMask')?.click();
+        return;
+      }
+      if (e.target.closest('#openReportHistoryBtn')) {
+        e.preventDefault();
+        document.getElementById('settingsMask')?.click();
+        setTimeout(() => document.getElementById('reportHistoryBtn')?.click(), 300);
+        return;
+      }
+      if (e.target.closest('#listBackupsBtn')) {
+        e.preventDefault();
+        const box = document.getElementById('backupListBox');
+        if (!box) return;
+        if (box.style.display === 'block') { box.style.display = 'none'; return; }
+        if (!window.AndroidBridge || typeof AndroidBridge.listBackups !== 'function') {
+          box.innerHTML = '<p style="font-size:12px;color:#8A90A2">当前环境不支持历史备份</p>';
+          box.style.display = 'block';
+          return;
+        }
+        let list = [];
+        try { list = JSON.parse(AndroidBridge.listBackups() || '[]'); } catch(err){}
+        if (!list.length) {
+          box.innerHTML = '<p style="font-size:12px;color:#8A90A2">暂无历史备份（每天打开 App 时会自动保存一份）</p>';
+        } else {
+          box.innerHTML = list.map(item => {
+            const d2 = new Date(item.time);
+            const sizeK = (item.size / 1024).toFixed(0);
+            const dateStr = item.name;
+            const day = ['日','一','二','三','四','五','六'][d2.getDay()];
+            return `<div class="kv" style="align-items:center">
+              <span class="k" style="width:110px;font-size:12px">${dateStr} 周${day}</span>
+              <span class="v" style="font-size:11.5px;color:#8A90A2">${sizeK} KB</span>
+              <button data-restore-backup="${dateStr}" style="border:none;font-family:inherit;font-size:12px;font-weight:600;color:#8B7CF6;background:#F1EEFF;padding:6px 12px;border-radius:8px;cursor:pointer">恢复</button>
+            </div>`;
+          }).join('');
+        }
+        box.style.display = 'block';
+        return;
+      }
+      const restoreBtn = e.target.closest('[data-restore-backup]');
+      if (restoreBtn) {
+        e.preventDefault();
+        const date = restoreBtn.dataset.restoreBackup;
+        if (!confirm(`确定用 ${date} 的备份覆盖当前数据吗？`)) return;
+        let json = '';
+        try { json = AndroidBridge.readBackup(date); } catch(err){}
+        if (!json) { alert('读取失败'); return; }
+        let pack = null;
+        try { pack = JSON.parse(json); } catch(err){ alert('备份文件损坏'); return; }
+        const data = pack && pack.data;
+        if (!data) { alert('备份内容为空'); return; }
+        const keys = Object.keys(data);
+        keys.forEach(k => { try { window.__appStorageSet(k, data[k]); } catch(err){} });
+        alert(`已恢复 ${keys.length} 项数据。App 将重启。`);
+        setTimeout(() => { try { location.reload(); } catch(err){} }, 800);
+        return;
+      }
     });
   }
 
@@ -4177,7 +5091,7 @@ init();
       const crash = window.__appStorageGet('last_crash');
       if (!crash) return;
       setTimeout(function(){
-        if (confirm('上次运行出现异常。是否查看详情？\n（查看后自动清除记录）')) {
+        if (confirm('上次运行出现异常。是否查看详情？')) {
           alert('异常信息：\n\n' + crash.slice(0, 800));
         }
         window.__appStorageRemove('last_crash');
@@ -4194,10 +5108,9 @@ init();
       if (now - first < 3 * 86400000) return;
       if (last > 0 && now - last < 30 * 86400000) return;
       setTimeout(function(){
-        if (confirm('已超过 30 天未备份数据。\n\n手机丢失或卸载 App 会导致数据全部丢失。\n\n是否现在导出一份 JSON 备份？')) {
+        if (confirm('已超过 30 天未备份数据。\n\n是否现在导出 JSON 备份？')) {
           const btn = document.getElementById('exportDataBtn');
           if (btn) btn.click();
-          else alert('请打开右上角 ⚙️ 设置 → 数据备份，点击「导出数据备份」');
         }
       }, 3500);
     } catch(e){}
@@ -4228,7 +5141,7 @@ init();
     if (e.target.closest('[data-open-settings]')) setTimeout(injectAppSettings, 150);
   }, true);
 
-  console.log('[Enhanced v3.5] 设置 / 备份 / 久坐提醒 / 通知 / 分类导出 已加载');
+  console.log('[Enhanced v4.1] 完整版已加载');
 })();
 </script>
 </body>

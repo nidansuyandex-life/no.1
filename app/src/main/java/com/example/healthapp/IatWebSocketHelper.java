@@ -32,15 +32,11 @@ import okhttp3.WebSocketListener;
 
 /**
  * 讯飞语音听写 · WebSocket 版
- * 不依赖任何 .aar / .jar / .so，只需要 AppID + APIKey + APISecret。
- * 网页侧接口：AndroidBridge.startVoice() / stopVoice()
- * 网页侧回调：window.onNativeSpeechResult / onNativeSpeechError / onNativeSpeechState
  */
 public class IatWebSocketHelper {
 
     private static final String TAG = "IatWsHelper";
 
-    // ===== 讯飞配置（你控制台里给的三项） =====
     private static final String APPID      = "4c627b59";
     private static final String API_KEY    = "2fbffaacd145309be7c024db99e9c7ef";
     private static final String API_SECRET = "YzI1MDJmYWM0NTliNzNkMjI3NGIyM2Uz";
@@ -69,17 +65,13 @@ public class IatWebSocketHelper {
                 .build();
     }
 
-    // ================= 对外：开始识别 =================
     public void start() {
         if (isRecording) return;
         isRecording = true;
         resultBuffer.setLength(0);
-
         mainHandler.post(() -> callbackState("started"));
-
         try {
             String wsUrl = buildAuthUrl();
-            Log.d(TAG, "WS URL = " + wsUrl);
             Request request = new Request.Builder().url(wsUrl).build();
             webSocket = httpClient.newWebSocket(request, new WsListener());
         } catch (Exception e) {
@@ -89,13 +81,11 @@ public class IatWebSocketHelper {
         }
     }
 
-    // ================= 对外：停止识别 =================
     public void stop() {
         if (!isRecording) return;
         isRecording = false;
         try {
             if (webSocket != null) {
-                // 发送最后一帧：status=2，空音频
                 JSONObject frame = new JSONObject();
                 JSONObject data = new JSONObject();
                 data.put("status", 2);
@@ -110,7 +100,6 @@ public class IatWebSocketHelper {
         }
     }
 
-    // ================= 对外：释放 =================
     public void destroy() {
         stop();
         try { if (webSocket != null) webSocket.close(1000, "bye"); } catch (Exception ignored) {}
@@ -123,13 +112,11 @@ public class IatWebSocketHelper {
         } catch (Exception ignored) {}
     }
 
-    // ================= 生成带鉴权的 WebSocket URL =================
     private String buildAuthUrl() throws Exception {
         SimpleDateFormat fmt = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
         fmt.setTimeZone(TimeZone.getTimeZone("GMT"));
         String date = fmt.format(new Date());
 
-        // signature origin（三行，末尾不能有换行）
         String signatureOrigin = "host: " + HOST + "\n"
                 + "date: " + date + "\n"
                 + "GET " + PATH + " HTTP/1.1";
@@ -139,7 +126,6 @@ public class IatWebSocketHelper {
         byte[] signBytes = mac.doFinal(signatureOrigin.getBytes(StandardCharsets.UTF_8));
         String signature = Base64.encodeToString(signBytes, Base64.NO_WRAP);
 
-        // authorization origin
         String authOrigin = "api_key=\"" + API_KEY + "\", "
                 + "algorithm=\"hmac-sha256\", "
                 + "headers=\"host date request-line\", "
@@ -154,16 +140,13 @@ public class IatWebSocketHelper {
                 + "&host=" + HOST;
     }
 
-    // ================= WebSocket 监听器 =================
     private class WsListener extends WebSocketListener {
 
         @Override
         public void onOpen(WebSocket ws, Response response) {
             Log.d(TAG, "WebSocket opened");
             try {
-                // 第一帧：status=0，携带 common / business / data（音频为空）
                 JSONObject frame = new JSONObject();
-
                 JSONObject common = new JSONObject();
                 common.put("app_id", APPID);
                 frame.put("common", common);
@@ -172,7 +155,7 @@ public class IatWebSocketHelper {
                 business.put("language", "zh_cn");
                 business.put("domain", "iat");
                 business.put("accent", "mandarin");
-                business.put("vad_eos", 2000);   // 静音 2 秒自动结束
+                business.put("vad_eos", 2000);
                 frame.put("business", business);
 
                 JSONObject data = new JSONObject();
@@ -200,7 +183,6 @@ public class IatWebSocketHelper {
                     callbackError(msg + " (code=" + code + ")");
                     return;
                 }
-
                 JSONObject data = jo.optJSONObject("data");
                 if (data == null) return;
                 int status = data.optInt("status", 1);
@@ -216,18 +198,13 @@ public class IatWebSocketHelper {
                             }
                         }
                     }
-                    // 实时中间结果
                     callbackResult(resultBuffer.toString());
                 }
 
                 if (status == 2) {
-                    // 识别结束
                     String finalText = resultBuffer.toString().trim();
-                    if (finalText.isEmpty()) {
-                        callbackError("未识别到内容");
-                    } else {
-                        callbackResult(finalText);
-                    }
+                    if (finalText.isEmpty()) callbackError("未识别到内容");
+                    else callbackResult(finalText);
                     isRecording = false;
                     stopRecording();
                     try { ws.close(1000, "done"); } catch (Exception ignored) {}
@@ -253,7 +230,6 @@ public class IatWebSocketHelper {
         }
     }
 
-    // ================= 录音 + 推流 =================
     @SuppressLint("MissingPermission")
     private void startRecording(final WebSocket ws) {
         int bufSize = AudioRecord.getMinBufferSize(
@@ -283,27 +259,24 @@ public class IatWebSocketHelper {
         audioRecord.startRecording();
 
         recordThread = new Thread(() -> {
-            byte[] buffer = new byte[1280];   // 40ms 数据
+            byte[] buffer = new byte[1280];
             while (isRecording && !Thread.currentThread().isInterrupted()) {
                 int n = audioRecord.read(buffer, 0, buffer.length);
                 if (n <= 0) continue;
                 try {
                     byte[] chunk;
-                    if (n == buffer.length) {
-                        chunk = buffer;
-                    } else {
+                    if (n == buffer.length) chunk = buffer;
+                    else {
                         chunk = new byte[n];
                         System.arraycopy(buffer, 0, chunk, 0, n);
                     }
-
                     JSONObject frame = new JSONObject();
                     JSONObject data = new JSONObject();
-                    data.put("status", 1);   // 中间帧一律 status=1
+                    data.put("status", 1);
                     data.put("format", "audio/L16;rate=" + SAMPLE_RATE);
                     data.put("encoding", "raw");
                     data.put("audio", Base64.encodeToString(chunk, Base64.NO_WRAP));
                     frame.put("data", data);
-
                     ws.send(frame.toString());
                 } catch (Exception e) {
                     Log.e(TAG, "send frame error", e);
@@ -330,7 +303,6 @@ public class IatWebSocketHelper {
         audioRecord = null;
     }
 
-    // ================= 回调 JS =================
     private void callbackResult(String text) {
         mainHandler.post(() -> evalJs("window.onNativeSpeechResult && window.onNativeSpeechResult(" + jsString(text) + ");"));
     }
